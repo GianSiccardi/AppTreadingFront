@@ -1,12 +1,13 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { DialogContent, DialogHeader } from '@/components/ui/dialog'
 import { DialogTrigger, Dialog, DialogTitle } from '@radix-ui/react-dialog'
-import { ReloadIcon } from '@radix-ui/react-icons'
+import { ReloadIcon, UpdateIcon } from '@radix-ui/react-icons'
 import { CopyIcon, DollarSign, ShuffleIcon, UploadIcon, WalletIcon } from 'lucide-react'
 import React from 'react'
 import TopupForm from './TopupForm'
 import WithDrawlForm from '../Withdrawal/WithDrawlForm'
 import TransferForm from './TransferForm'
+import { Avatar, AvatarFallback } from '@radix-ui/react-avatar'
 
 
 const Wallet = () => {
@@ -49,7 +50,7 @@ const Wallet = () => {
                 </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>
-                    <DialogTitle>
+                    <DialogTitle className='text-xl font-bold'>
                       Recargar tu saldo!
                     </DialogTitle>
                   </DialogHeader>
@@ -69,7 +70,7 @@ const Wallet = () => {
                 </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>
-                    <DialogTitle>
+                    <DialogTitle className='text-xl font-bold'>
                       Monto a retirar!
                     </DialogTitle>
                   </DialogHeader>
@@ -88,7 +89,7 @@ const Wallet = () => {
                 </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>
-                    <DialogTitle className='text-center text-xl'>
+                    <DialogTitle className='text-center text-xl font-bold '>
                       Transferir a otra billetera
                     </DialogTitle>
                   </DialogHeader>
@@ -98,6 +99,43 @@ const Wallet = () => {
             </div>
           </CardContent>
         </Card>
+
+        <div className="py-5 pt-10">
+          <div className="flex gap-2 items-center pb-5">
+            <h1 className="text-2xl font-semibold">Historial</h1>
+            <UpdateIcon className='h-7 w-7 p-0 cursor-pointer hover:text-gray-400' />
+
+          </div>
+
+
+        </div>
+
+
+        <div className="space-y-5">
+           {[1,1,1,1,1].map((item,i)=>
+
+          <div key={i}>
+            <Card className="lg:w-[50%] px-5 flex justify-between items-center p-3">
+              <div className="flex items-center gap-5">
+                <Avatar>
+                  <AvatarFallback>
+                    <ShuffleIcon className='' />
+                  </AvatarFallback>
+                </Avatar>
+                <div className="space-y-1">
+                  <h1>Compras</h1>
+                  <p className='text-sm text-gray-500'>2024-05-08</p>
+                </div>
+              </div>
+
+              <div>
+                <p className='text-green-500'> 999 usd</p>
+              </div>
+            </Card>
+          </div>)}     
+      
+        </div>
+
       </div>
     </div>
   )

@@ -14,6 +14,7 @@ import StockDetails from './page/StockDetails/StockDetails'
 import WatchList from './page/WatchList/WatchList'
 import Profile from './page/Profile/Profile'
 import SearchCoin from './page/Search/SearchCoin'
+import Withdrawal from './page/Withdrawal/Withdrawal'
 
 function App() {
 
@@ -26,7 +27,7 @@ function App() {
   <Route path='/portfolio' element={<Portfolio />} />
   <Route path='/activity' element={<Activity />} />
   <Route path='/wallet' element={<Wallet />} />
-  <Route path='/withdrawal' element={<withdrawal />} />
+  <Route path='/withdrawal' element={<Withdrawal />} />
   <Route path='/payment-details' element={<PaymentDetails />} />
   <Route path='/market/:id' element={<StockDetails />} />
   <Route path='/watchList' element={<WatchList />} />

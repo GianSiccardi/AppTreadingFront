@@ -22,7 +22,7 @@ const Navbar = () => {
   <DragHandleHorizontalIcon className='h-10 w-10'/>
 </Button>
   </SheetTrigger>
-  <SheetContent side='left' className='w-72 border-r-0 flex flex-col justify-center'>
+  <SheetContent side='left' className='w-72 p-5 border-r-0 flex flex-col justify-center'>
     <SheetHeader>
    
     <SheetTitle>
