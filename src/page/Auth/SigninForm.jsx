@@ -5,9 +5,12 @@ import { useForm } from 'react-hook-form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button';
 import { DialogClose } from '@radix-ui/react-dialog';
+import { useDispatch } from 'react-redux';
+import { login } from '@/Store/Auth/Action';
 
 
 const SigninForm = () => {
+    const dispatch=useDispatch();
   const form = useForm({
     resolver: "",
     defaultValues: {
@@ -19,7 +22,7 @@ const SigninForm = () => {
 })
 
 const onSubmit = (data) => {
-
+dispatch(login,data)
 }
 return (
     <div className='px-10 py-2'>
