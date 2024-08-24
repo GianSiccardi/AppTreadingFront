@@ -3,6 +3,7 @@ import { SheetClose } from '@/components/ui/sheet'
 import { ActivityLogIcon, BookmarkIcon, DashboardIcon, ExitIcon, HomeIcon, PersonIcon } from '@radix-ui/react-icons'
 import {DollarSign , CreditCardIcon, Wallet} from "lucide-react"
 import React from 'react'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 const menu=[
@@ -39,6 +40,11 @@ const menu=[
 const Sidebar = () => {
 
     const navigate=useNavigate();
+    const dispatch=useDispatch()
+
+    const handleLogout=()=>{
+        dispatch(logout())
+    }
 
  
   return (
@@ -47,7 +53,12 @@ const Sidebar = () => {
         <div key={item.name}>
             <SheetClose className='w-full'>
             <Button variant="outline" className="flex items-center  gap-5 py-6 w-full" 
-            onClick={()=>navigate(item.path)}
+            onClick={()=>{
+                navigate(item.path)
+                if(item.name=="LogOut"){
+                    handleLogout()
+                }
+            }}
             >
 <span className='w-8'>{item.icon}</span>
 <p>{item.name}</p>

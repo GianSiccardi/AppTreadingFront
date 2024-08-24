@@ -7,10 +7,12 @@ import { Button } from '@/components/ui/button';
 import { DialogClose } from '@radix-ui/react-dialog';
 import { useDispatch } from 'react-redux';
 import { login } from '@/Store/Auth/Action';
+import { useNavigate } from 'react-router-dom';
 
 
 const SigninForm = () => {
     const dispatch=useDispatch();
+    const navigate=useNavigate();
   const form = useForm({
     resolver: "",
     defaultValues: {
@@ -22,7 +24,7 @@ const SigninForm = () => {
 })
 
 const onSubmit = (data) => {
-dispatch(login,data)
+dispatch(login,{data,navigate})
 }
 return (
     <div className='px-10 py-2'>

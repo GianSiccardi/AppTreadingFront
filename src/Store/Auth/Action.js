@@ -1,4 +1,4 @@
-import { LOGIN_FAILURE, LOGIN_SUCCES, REGISTER_FAILURE, REGISTER_REQUEST, REGISTER_SUCCES } from "./ActionTypes";
+import { LOGIN_FAILURE, LOGIN_SUCCES, LOGOUT, REGISTER_FAILURE, REGISTER_REQUEST, REGISTER_SUCCES } from "./ActionTypes";
 
 export const register=(useData)=>async(dispatch)=>{
     const baseUrl="http://localhost:8080"
@@ -11,6 +11,7 @@ export const register=(useData)=>async(dispatch)=>{
         const user=response.data;
         console.log(user);
         dispatch({type:REGISTER_SUCCES,payload:user.jwt})
+        localStorage.setItem("jwt",user.jwt)
     }catch(error){
 
         dispatch({type:REGISTER_FAILURE,payload:error.message})
@@ -27,10 +28,14 @@ export const login=(useData)=>async(dispatch)=>{
 
         dispatch({type:LOGIN_REQUEST})
 
-        const response = await axios.post(`${baseUrl}/auth/login`, useData);
+        const response = await axios.post(`${baseUrl}/auth/login`, useData.data);
         const user=response.data;
         console.log(user);
+        
         dispatch({type:LOGIN_SUCCES_SUCCES,payload:user.jwt})
+        localStorage.setItem("jwt",user.jwt)
+        useData.navigate("/")
+
     }catch(error){
 
         dispatch({type:LOGIN_FAILURE,payload:error.message})
@@ -62,4 +67,9 @@ export const getUSer=(jwt)=>async(dispatch)=>{
 
     }
 
+}
+
+export const logOut=()=>(dispatch)=>{
+    localStorage.clear();
+    dispatch({type:LOGOUT})
 }

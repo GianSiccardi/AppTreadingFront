@@ -1,7 +1,8 @@
 import {
     REGISTER_REQUEST, REGISTER_FAILURE, REGISTER_SUCCES, LOGIN_REQUEST,
     GET_USER_REQUEST, LOGIN_SUCCES, LOGIN_FAILURE, GET_USER_FAILURE,
-    GET_USER_SUCCES
+    GET_USER_SUCCES,
+    LOGOUT
 } from "./ActionTypes";
 
 const initialState = {
@@ -36,6 +37,9 @@ const authReducer = (state = initialState, action) => {
             return { ...state, loading: false, error: action.payload }
 
 
+        case LOGOUT:{
+            return initialState;
+        }    
         default:
             return state;
     }
