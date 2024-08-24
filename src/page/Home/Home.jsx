@@ -6,12 +6,20 @@ import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { DotIcon } from '@radix-ui/react-icons';
 import { CrossIcon, MessageCircle } from 'lucide-react';
 import { Input } from '@/components/ui/input';
+import { getCoinList } from '@/Store/Coin/Action'
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 
 const Home = () => {
     const [category, setCategory] = React.useState("all");
     const[inputValue,setInputValue]=React.useState("")
     const[isBotRealease,setIsBotRealease]=React.useState(false);
+   
 
+    const {coin}=useSelector(store=>store)
+
+    const dispatch=useDispatch();
     const handleBotRelease=()=>setIsBotRealease(!isBotRealease);
 
 
@@ -30,6 +38,11 @@ const Home = () => {
 
         setInputValue("");
     }
+
+    useEffect(()=>{
+
+        dispatch(getCoinList(1))
+      },[])
 
     return (
         <div className='relative'>
@@ -50,7 +63,7 @@ const Home = () => {
                             Perdedores
                         </Button>
                     </div>
-                    <AssetTable>
+                    <AssetTable coin={coin.coinList} category={category}>
 
                     </AssetTable>
                 </div>

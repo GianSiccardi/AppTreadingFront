@@ -24,7 +24,9 @@ const SigninForm = () => {
 })
 
 const onSubmit = (data) => {
-dispatch(login,{data,navigate})
+    console.log("Form submitted", data); 
+    dispatch(login({ data, navigate }));
+
 }
 return (
     <div className='px-10 py-2'>
@@ -69,7 +71,7 @@ return (
                     )}
                 />
 
-        <Button type="submite" className="w-full py-5" >  Ingresar</Button>
+<Button type="submit" className="w-full py-5"> Ingresar</Button>
             </form>
         </Form>
     </div>

@@ -28,7 +28,9 @@ function App() {
   const dispatch=useDispatch()
 
 useEffect(()=>{
+
   dispatch(getUSer(auth.jwt ||localStorage.getItem("jwt")))
+  console.log("auth.user changed:", auth.user);
 },[auth.jwt])
 
   return (
@@ -43,7 +45,7 @@ useEffect(()=>{
   <Route path='/wallet' element={<Wallet />} />
   <Route path='/withdrawal' element={<Withdrawal />} />
   <Route path='/payment-details' element={<PaymentDetails />} />
-  <Route path='/market/:id' element={<StockDetails />} />
+  <Route path='/market/:coinId' element={<StockDetails />} />
   <Route path='/watchList' element={<WatchList />} />
   <Route path='/profile' element={<Profile />} />
   <Route path='/search' element={<SearchCoin />} />

@@ -5,7 +5,7 @@ import {DollarSign , CreditCardIcon, Wallet} from "lucide-react"
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-
+import { logOut } from '@/Store/Auth/Action'
 const menu=[
     {
         name:"Home",path:"/",icon:<HomeIcon className='h-6 w-6'/>
@@ -43,7 +43,7 @@ const Sidebar = () => {
     const dispatch=useDispatch()
 
     const handleLogout=()=>{
-        dispatch(logout())
+        dispatch(logOut())
     }
 
  

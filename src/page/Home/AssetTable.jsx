@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
     Table,
     TableBody,
@@ -10,10 +10,17 @@ import {
   } from "@/components/ui/table"
 import { Avatar, AvatarImage } from '@radix-ui/react-avatar'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
   
-const AssetTable = () => {
+const AssetTable = ({coin,category}) => {
+
+  const dispatch=useDispatch();
 
 const navigate=useNavigate();
+
+
+
+
 
   return (
     <Table>
@@ -26,29 +33,29 @@ const navigate=useNavigate();
         <TableHead>Simbolo</TableHead>
         <TableHead>Volumen</TableHead>
         <TableHead>Capitalizacion de mercado</TableHead>
-        <TableHead>24</TableHead>
+        <TableHead>24hs</TableHead>
 
 
         <TableHead className="text-right">Price</TableHead>
       </TableRow>
     </TableHeader>
     <TableBody>
-        {[1,1,1,1,1,1,1,1,1].map((item, index) => (
-          <TableRow key={index}>
-            <TableCell onClick={()=>navigate(`/market/bitcoin`)} className="font-medium flex items-center gap-2">
+        {coin.map((item, index) => (
+          <TableRow key={item.id}>
+            <TableCell onClick={()=>navigate(`/market/${item.id}`)} className="font-medium flex items-center gap-2">
               <Avatar className='w-8 h-8 flex items-center justify-center'>
                 <AvatarImage
-                  src='https://coin-images.coingecko.com/coins/images/1/large/bitcoin.png?1696501400'
+                  src={item.image}
                   className='w-full h-full object-cover'
                 />
               </Avatar>
-              <span>Bitcoin</span>
+              <span>{item.name}</span>
             </TableCell>
-            <TableCell>BTC</TableCell>
-            <TableCell>1000000000</TableCell>
-            <TableCell>1000000000</TableCell>
-            <TableCell>1000000000</TableCell>
-            <TableCell className="text-right">$250.00</TableCell>
+            <TableCell>{item.symbol}</TableCell>
+            <TableCell>{item.total_volume}</TableCell>
+            <TableCell>{item.market_cap}</TableCell>
+            <TableCell>{item.price_change_percentage_24h}</TableCell>
+            <TableCell className="text-right">{item.current_price}</TableCell>
           </TableRow>
         ))}
       </TableBody>
