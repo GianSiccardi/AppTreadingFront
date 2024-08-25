@@ -28,28 +28,31 @@ export const getCoinList = (page) => async (dispatch) => {
     }
 };
 
-
-export const getTop50CoinList=({})=>async(dispatch)=>{
-    dispatch({type:FETCH_TOP_50_REQUEST})
+export const getTop50CoinList = () => async (dispatch) => {
+    dispatch({ type: FETCH_TOP_50_REQUEST });
     
+   
     try {
+        const jwt = localStorage.getItem('jwt');
+        const response = await axios.get(`${API_BASE_URL}/coins/top50`, {
+            headers: {
+                Authorization: `Bearer ${jwt}`,
+            },
+        });
 
-        const response=await axios.get(`${API_BASE_URL}/coins?page=${page}`)
-        dispatch({type:FETCH_TOP_50_SUCCESS ,payload:response.data})
-
-
-    }catch(error){
-        dispatch({type:FETCH_TOP_50_FAILURE,payload:error.message})
-        console.log(error)
+        dispatch({ type: FETCH_TOP_50_SUCCESS, payload: response.data });
+    } catch (error) {
+        dispatch({ type: FETCH_TOP_50_FAILURE, payload: error.message });
+        console.log(error);
     }
-
-}
+};
 
 export const fetchMarketChart=({coinId,days,jwt})=>async(dispatch)=>{
     dispatch({type:FETCH_MARKET_CHART_REQUEST})
     try{
 
         const response=await api.get(`/coins/${coinId}/chart?days=${days}`,{
+            
             headers:{
                 Authorization:`Bearer ${jwt}`
             }

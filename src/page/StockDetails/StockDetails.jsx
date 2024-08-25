@@ -22,12 +22,12 @@ const StockDetails = () => {
   const { coin } = useSelector((store) => store);
   const { coinId } = useParams(); 
   const dispatch = useDispatch();
-  const jwt = localStorage.getItem('jwt');
+ 
 
 
   useEffect(() => {
     if (coinId) {
-      dispatch(fetchCoinDetails({ coinId, jwt }));
+      dispatch(fetchCoinDetails({ coinId, jwt:localStorage.getItem("jwt") }));
     }
   }, [coinId]);
 
@@ -43,7 +43,7 @@ return (
       </Avatar>
       <div className="flex flex-col gap-2">  
         <div className="flex items-center gap-2">
-          <p>BTC</p>
+          <p>{coin.coinDetails?.symbol.toUpperCase()}</p>
           <DotIcon className='text-gray-400' />
           <p className='text-gray-400'>{coin.coinDetails?.name}</p>
         </div>
@@ -78,7 +78,7 @@ return (
     </div>
   </div>
   <div className="mt-14">
-  <StockChart/>
+  <StockChart coinId={coinId}/>
   </div>
 
 

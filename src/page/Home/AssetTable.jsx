@@ -11,6 +11,7 @@ import {
 import { Avatar, AvatarImage } from '@radix-ui/react-avatar'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
+import { ScrollArea } from '@/components/ui/scroll-area'
   
 const AssetTable = ({coin,category}) => {
 
@@ -24,25 +25,24 @@ const navigate=useNavigate();
 
   return (
     <Table>
-    <TableCaption>A list of your recent invoices.</TableCaption>
-    <TableHeader>
-      <TableRow>
-        <TableHead className="w-[100px]">
-            Moneda
-        </TableHead>
-        <TableHead>Simbolo</TableHead>
-        <TableHead>Volumen</TableHead>
-        <TableHead>Capitalizacion de mercado</TableHead>
-        <TableHead>24hs</TableHead>
-
-
-        <TableHead className="text-right">Price</TableHead>
-      </TableRow>
-    </TableHeader>
-    <TableBody>
+    <ScrollArea className={`${category === "all" ? "h-[74vh]" : "h-[82vh]"}`}>
+      <TableHeader>
+        <TableRow>
+          <TableHead className="w-[100px]">Moneda</TableHead>
+          <TableHead>Simbolo</TableHead>
+          <TableHead>Volumen</TableHead>
+          <TableHead>Capitalizacion de mercado</TableHead>
+          <TableHead>24hs</TableHead>
+          <TableHead className="text-right">Price</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
         {coin.map((item, index) => (
           <TableRow key={item.id}>
-            <TableCell onClick={()=>navigate(`/market/${item.id}`)} className="font-medium flex items-center gap-2">
+            <TableCell
+              onClick={() => navigate(`/market/${item.id}`)}
+              className="font-medium flex items-center gap-2"
+            >
               <Avatar className='w-8 h-8 flex items-center justify-center'>
                 <AvatarImage
                   src={item.image}
@@ -59,6 +59,8 @@ const navigate=useNavigate();
           </TableRow>
         ))}
       </TableBody>
+      <TableCaption>A list of your recent invoices.</TableCaption>
+    </ScrollArea>
   </Table>
   
   )

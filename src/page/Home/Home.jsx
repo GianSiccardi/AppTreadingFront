@@ -6,43 +6,50 @@ import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { DotIcon } from '@radix-ui/react-icons';
 import { CrossIcon, MessageCircle } from 'lucide-react';
 import { Input } from '@/components/ui/input';
-import { getCoinList } from '@/Store/Coin/Action'
+import { getCoinList, getTop50CoinList } from '@/Store/Coin/Action'
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 
 const Home = () => {
     const [category, setCategory] = React.useState("all");
-    const[inputValue,setInputValue]=React.useState("")
-    const[isBotRealease,setIsBotRealease]=React.useState(false);
-   
+    const [inputValue, setInputValue] = React.useState("")
+    const [isBotRealease, setIsBotRealease] = React.useState(false);
 
-    const {coin}=useSelector(store=>store)
 
-    const dispatch=useDispatch();
-    const handleBotRelease=()=>setIsBotRealease(!isBotRealease);
+    const { coin } = useSelector(store => store)
+
+    const dispatch = useDispatch();
+    const handleBotRelease = () => setIsBotRealease(!isBotRealease);
 
 
     const handleCategory = (value) => {
         setCategory(value)
     }
 
-    const handleChange= (e)=>{
-    setInputValue(e.target.value);
+    const handleChange = (e) => {
+        setInputValue(e.target.value);
     }
 
-    const handleKeyPress=(event)=>{
-        if(event.key=="Enter"){
+    const handleKeyPress = (event) => {
+        if (event.key == "Enter") {
             console.log(inputValue)
         }
 
         setInputValue("");
     }
 
-    useEffect(()=>{
+    useEffect(() => {
+        if (category === "top50") {
+            dispatch(getTop50CoinList());  // Llamada sin parámetros
+        }
+    }, [category]);
+
+
+    useEffect(() => {
 
         dispatch(getCoinList(1))
-      },[])
+    }, [])
 
     return (
         <div className='relative'>
@@ -50,21 +57,20 @@ const Home = () => {
                 <div className="lg:w-[50%] lg:border-r">
                     <div className="p-3 flex items-center gap-4">
 
-                        <Button onClick={() => handleCategory("top50")} variant={category === "top50" ? "defult" : "outline"} className="rounded-full">
+                        <Button onClick={() => handleCategory("all")} variant={category === "all" ? "default" : "outline"} className="rounded-full">
                             Todas las monedas
                         </Button>
-                        <Button onClick={() => handleCategory("")} variant={category === "top50" ? "defult" : "outline"} className="rounded-full">
+                        <Button onClick={() => handleCategory("top50")} variant={category === "top50" ? "default" : "outline"} className="rounded-full">
                             Top50
                         </Button>
-                        <Button onClick={() => handleCategory("topGainers")} variant={category === "topGainers" ? "defult" : "outline"} className="rounded-full">
+                        <Button onClick={() => handleCategory("topGainers")} variant={category === "topGainers" ? "default" : "outline"} className="rounded-full">
                             Ganadores
                         </Button>
-                        <Button onClick={() => handleCategory("topLosers")} variant={category === "topLosers" ? "defult" : "outline"} className="rounded-full">
+                        <Button onClick={() => handleCategory("topLosers")} variant={category === "topLosers" ? "default" : "outline"} className="rounded-full">
                             Perdedores
                         </Button>
                     </div>
-                    <AssetTable coin={coin.coinList} category={category}>
-
+                    <AssetTable coin={category === "all" ? coin.coinList : coin.top50} category={category} >
                     </AssetTable>
                 </div>
                 <div className="hidden lg:block lg:w-[50%] p-5">
@@ -102,11 +108,11 @@ const Home = () => {
                 </div>
             </div>
             <section className='absolute bottom-5 right-5 z-40 flex flex-col justify-end items-end gap-2'>
-               {isBotRealease && <div className="rounded-md w-[20rem] md:w-[25rem] lg:w-[25rem] h-[45vh] bg-slate-900 text-white">
+                {isBotRealease && <div className="rounded-md w-[20rem] md:w-[25rem] lg:w-[25rem] h-[45vh] bg-slate-900 text-white">
                     <div className="flex justify-between items-center border-b px-6 h-[12%]">
                         <p>Chat bot</p>
                         <Button onClick={handleBotRelease}
-                        variant="ghost" size="icon">
+                            variant="ghost" size="icon">
                             <CrossIcon />
                         </Button>
                     </div>
@@ -142,22 +148,22 @@ const Home = () => {
 
                                 </div>
                             ))}
-                   
+
                     </div>
                     <div className="h-[12%] border-t">
-                <Input className="w-full h-full order-none outline-none"
-                placeholder="Escribe aqui"
-                onChange={handleChange}
-                value={inputValue}
-                onKeyPress={handleKeyPress}
-                
-                ></Input>
+                        <Input className="w-full h-full order-none outline-none"
+                            placeholder="Escribe aqui"
+                            onChange={handleChange}
+                            value={inputValue}
+                            onKeyPress={handleKeyPress}
+
+                        ></Input>
                     </div>
                 </div>}
 
                 <div className="relative w-[10rem] cursor-pointer group">
                     <Button onClick={handleBotRelease} className="w-full h-[3rem] gao-2 items-center">
-                       
+
                         <MessageCircle
                             size={30}
                             className='fill-[#1e293b] -rote-90 stroke-none group-hover:fill-[#1a1a1a]'></MessageCircle>
