@@ -2,10 +2,13 @@ import { Input } from '@/components/ui/input'
 import { Dialog, DialogClose } from '@radix-ui/react-dialog'
 import React from 'react'
 import { Button } from '@/components/ui/button';
+import { useDispatch, useSelector } from 'react-redux'
+import { transferMoney } from '@/Store/Wallet/Actions';
 
 
 const TransferForm = () => {
-
+  const dispatch =useDispatch();
+  const {wallet}=useSelector(store=>store)
 const[formData,setFormData]=React.useState({amount:'',walletId:'',porpose:''})
 
 
@@ -14,8 +17,15 @@ const handleChange=(e)=>{
 setFormData({...formData,[e.target.name]:e.target.value})
 }
 
+
+
 const handleSubmit=()=>{
-  e.preventDefault()
+ dispatch(transferMoney({
+  jwt:localStorage.getItem("jwt"),
+  walletId:formData.walletId,
+ reqData:{ amount:formData.amount,
+  purpose:formData.porpose}
+ }))
 }
   return (
     <div className='pt-10 space-y-5'>

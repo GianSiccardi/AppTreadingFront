@@ -3,15 +3,58 @@ import { DialogContent, DialogHeader } from '@/components/ui/dialog'
 import { DialogTrigger, Dialog, DialogTitle } from '@radix-ui/react-dialog'
 import { ReloadIcon, UpdateIcon } from '@radix-ui/react-icons'
 import { CopyIcon, DollarSign, ShuffleIcon, UploadIcon, WalletIcon } from 'lucide-react'
-import React from 'react'
+import React, { useEffect } from 'react'
 import TopupForm from './TopupForm'
 import WithDrawlForm from '../Withdrawal/WithDrawlForm'
 import TransferForm from './TransferForm'
 import { Avatar, AvatarFallback } from '@radix-ui/react-avatar'
+import { useDispatch, useSelector } from 'react-redux'
+import { depositMoney, getUserWallet } from '@/Store/Wallet/Actions'
+import { useLocation, useNavigate } from 'react-router-dom'
 
+
+function useQuery(){
+  return new URLSearchParams(useLocation().search);
+}
 
 const Wallet = () => {
-  return (
+
+const dispatch =useDispatch();
+const {wallet}=useSelector(store=>store)
+const query=useQuery()
+const orderId=query.get("order_id");
+const paymentId=query.get("payment_id")
+const stripePaymentId=query.get("stripe_payment_id")
+const navigate=useNavigate();
+
+const handleFetchUserWalle=()=>{
+  dispatch(getUserWallet(localStorage.getItem("jwt")))
+}
+
+
+const handleFetchWalletTransaction=()=>{
+  dispatch(getUserWallet(localStorage.getItem("jwt")))
+}
+
+useEffect(()=>{
+  handleFetchUserWalle();
+handleFetchWalletTransaction();
+},[])
+
+
+useEffect(()=>{
+if(orderId){
+  dispatch(depositMoney({jwt:localStorage.getItem("jwt"),
+    orderId,
+    paymentId:stripePaymentId|| paymentId,
+    navigate
+  }))
+}
+
+},[orderId,paymentId,stripePaymentId ])
+  
+
+return (
     <div className='flex flex-col items-center'>
       <div className="pt-10 w-full lg:w-[50%]"> {/* Corregido a 'lg:w-[60%]' */}
         <Card>
@@ -23,18 +66,20 @@ const Wallet = () => {
                   <CardTitle className="text-2xl">Mi billetera</CardTitle>
                   <div className='flex items-center gap-2'></div>
                   <p className='text-gray-200 text-sm'>
-                    #A475
+                    #{wallet.userWallet?.id}
                   </p>
                   <CopyIcon size={12} className='cursor-pointer hover:text-slate-300'></CopyIcon>
                 </div>
               </div>
-              <ReloadIcon className='w-6 h-6 cursor-pointer hover:text-gray-400'></ReloadIcon>
+              <ReloadIcon onClick={handleFetchUserWalle} className='w-6 h-6 cursor-pointer hover:text-gray-400'></ReloadIcon>
             </div>
           </CardHeader>
           <CardContent>
             <div className="flex items-center pb-5 pt-5">
               <DollarSign></DollarSign>
-              <span className='text-2xl font-semibold'>2000</span>
+              <span className='text-2xl font-semibold'>  {wallet.userWallet.balance !== null && wallet.userWallet.balance !== undefined
+    ? wallet.userWallet.balance
+    : 0}</span>
             </div>
 
             <div className="flex gap-7 mt-5">
@@ -112,7 +157,7 @@ const Wallet = () => {
 
 
         <div className="space-y-5">
-           {[1,1,1,1,1].map((item,i)=>
+           {wallet.map((item,i)=>
 
           <div key={i}>
             <Card className="lg:w-[50%] px-5 flex justify-between items-center p-3">

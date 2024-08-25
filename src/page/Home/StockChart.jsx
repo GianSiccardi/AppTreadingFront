@@ -4,11 +4,45 @@ import React, { useEffect, useState } from 'react'
 import ReactApexChart from 'react-apexcharts'
 import { useDispatch, useSelector } from 'react-redux';
 
+
+
+
+const timeSeries = [
+    {
+        keyword: "DIGITAL_CURRENCY_DAILY",
+        key: " Time Series (Daily)",
+        label: "1 Dia",
+        value: 1
+    },
+    {
+        keyword: "DIGITAL_CURRENCY_WEEKLY",
+        key: "Weekly Time Series ",
+        label: "1 Semana",
+        value: 7
+    },
+    {
+        keyword: "DIGITAL_CURRENCY_MONTHY",
+        key: "Monthly Time Series ",
+        label: "1 Mes",
+        value: 30
+    },
+    {
+        keyword: "DIGITAL_CURRENCY_MONTHY",
+        key: " Yearly Time Series ",
+        label: "1 Año",
+        value: 365
+    } 
+
+]
+
+
 const StockChart = ({ coinId }) => {
 
     const dispatch = useDispatch();
     const { coin } = useSelector(store => store)
-    const [activeLable, setActiveLable] = useState("1 Day")
+    const [activeLabel, setActiveLable] = useState(timeSeries[0])
+
+    const daysValue = activeLabel.value;
     const series = [
         {
            
@@ -16,26 +50,7 @@ const StockChart = ({ coinId }) => {
         },
     ];
 
-    const timeSeries = [
-        {
-            keyword: "DIGITAL_CURRENCY_DAILY",
-            key: " Time Series (Daily)",
-            lable: "1 Day",
-            value: 1
-        },
-        {
-            keyword: "DIGITAL_CURRENCY_WEEKLY",
-            key: " Time Series ",
-            lable: "1 Week",
-            value: 7
-        },
-        {
-            keyword: "DIGITAL_CURRENCY_MONTHY",
-            key: " Time Series ",
-            lable: "1 Month",
-            value: 30
-        }
-    ]
+   
     const options = {
         chart: {
             id: "area-datetime",
@@ -84,18 +99,26 @@ const StockChart = ({ coinId }) => {
     const handleActiveLable = (value) => {
         setActiveLable(value)
     }
+    console.log("coinId:", coinId);  // Debe mostrar un valor válido, no `undefined`
+    console.log("days:", activeLabel); // Debe mostrar un valor válido, no un objeto
+
 
     useEffect(() => {
-        dispatch(fetchMarketChart({ coinId, days:activeLable, jwt: localStorage.getItem("jwt") }))
-    }, [dispatch,coinId,activeLable])
+        if (coinId && daysValue) {
+            
+            dispatch(fetchMarketChart({ coinId, days: daysValue, jwt: localStorage.getItem("jwt") }));
+        }
+    }, [dispatch, coinId, daysValue]);
+
+
     return (
         <div>
             <div className='space-x-3'>
                 {timeSeries.map((item) => < Button
-                    variant={activeLable.lable == item.lable ? "" : "outline"}
+                    variant={activeLabel.label === item.label ? "" : "outline"}
                     onClick={() => handleActiveLable(item)}
-                    key={item.lable}>
-                    {item.lable}
+                    key={item.label}>
+                    {item.label}
                 </Button>)}
             </div>
 

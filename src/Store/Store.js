@@ -3,10 +3,12 @@ import authReducer from "./Auth/Reducer";
 import {combineReducers, legacy_createStore, applyMiddleware} from "redux";
 import {thunk} from "redux-thunk";
 import coinReducer from "./Coin/Reducer";
+import walletReducer from "./Wallet/Reducer";
 
 const rootReducer=combineReducers({
 auth:authReducer,
-coin:coinReducer
+coin:coinReducer,
+wallet:walletReducer
 })
 
 

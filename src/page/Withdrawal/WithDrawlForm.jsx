@@ -2,11 +2,13 @@ import React from 'react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button';
 import { DialogClose } from '@radix-ui/react-dialog';
+import { useDispatch, useSelector } from 'react-redux'
 
 const WithDrawlForm = () => {
   const[amount,setAmount]= React.useState(''); 
 
-
+  const dispatch =useDispatch();
+  const {wallet}=useSelector(store=>store)
 
 
   const handleChange = (e) => {

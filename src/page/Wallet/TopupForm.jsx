@@ -2,15 +2,18 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { paymentHandle } from '@/Store/Wallet/Actions';
 import { DotFilledIcon } from '@radix-ui/react-icons';
 
 
 import React from 'react'
+import { useDispatch } from 'react-redux';
 
 const TopupForm = () => {
 
 const[amount,setAmount]= React.useState(''); 
 const[paymentMethod,setPaymentMethod]=React.useState('STRIPE')
+const dispatch=useDispatch();
 
 
 
@@ -24,7 +27,10 @@ const handlePaymentMethodChange = (value) => {
 }
 
 const handleSubmit=()=>{
-
+dispatch(paymentHandle({jwt:localStorage.getItem("jwt"),
+    paymentMethod,
+    amount
+}))
 }
 
 

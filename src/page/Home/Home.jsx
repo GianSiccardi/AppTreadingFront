@@ -9,6 +9,16 @@ import { Input } from '@/components/ui/input';
 import { getCoinList, getTop50CoinList } from '@/Store/Coin/Action'
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import {
+    Pagination,
+    PaginationContent,
+    PaginationEllipsis,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from "@/components/ui/pagination"
+
 
 
 const Home = () => {
@@ -72,9 +82,28 @@ const Home = () => {
                     </div>
                     <AssetTable coin={category === "all" ? coin.coinList : coin.top50} category={category} >
                     </AssetTable>
+                    <div className="">
+                        <Pagination>
+                            <PaginationContent>
+                                <PaginationItem>
+                                    <PaginationPrevious href="#" />
+                                </PaginationItem>
+                                <PaginationItem>
+                                    <PaginationLink href="#">1</PaginationLink>
+                                </PaginationItem>
+                                <PaginationItem>
+                                    <PaginationEllipsis />
+                                </PaginationItem>
+                                <PaginationItem>
+                                    <PaginationNext href="#" />
+                                </PaginationItem>
+                            </PaginationContent>
+                        </Pagination>
+
+                    </div>
                 </div>
                 <div className="hidden lg:block lg:w-[50%] p-5">
-                    <StockChart></StockChart>
+                    <StockChart coinId={'bitcoin'} ></StockChart>
                     <div className="flex gap-5 items-center">
                         <div>
                             <Avatar>

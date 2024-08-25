@@ -51,12 +51,13 @@ export const fetchMarketChart=({coinId,days,jwt})=>async(dispatch)=>{
     dispatch({type:FETCH_MARKET_CHART_REQUEST})
     try{
 
-        const response=await api.get(`/coins/${coinId}/chart?days=${days}`,{
+        const response=await axios.get(`${API_BASE_URL}/coins/${coinId}/chart?days=${days}`,{
             
             headers:{
                 Authorization:`Bearer ${jwt}`
             }
         })
+        console.log('API response data:', response.data);
 
         dispatch({type:FETCH_MARKET_CHART_SUCCESS,payload:response.data})
 
