@@ -1,6 +1,7 @@
-import api from "@/config/api";
+import api, { API_BASE_URL } from "@/config/api";
 import { GET_USER_REQUEST } from "../Auth/ActionTypes"
 import { DEPOSIT_MONEY_FAILURE, DEPOSIT_MONEY_REQUEST, DEPOSIT_MONEY_SUCCESS, GET_USER_WALLET_FAILURE, GET_USER_WALLET_REQUEST, GET_USER_WALLET_SUCCESS, GET_WALLET_TRANSACTIONS_FAILURE, GET_WALLET_TRANSACTIONS_REQUEST, GET_WALLET_TRANSACTIONS_SUCCESS, TRANSFER_MONEY_REQUEST } from "./ActionsTypes";
+import axios from 'axios';
 
 
 
@@ -9,28 +10,25 @@ export const getUserWallet = (jwt) => async (dispatch) => {
 
     try {
 
-        const response = await api.get("/wallet", {
+        const response = await axios.get(`${API_BASE_URL}/wallet`, {
             headers: {
-                Authorization: `Bearer ${jwt}`
-            }
-        });
-
-        dispatch({
-            type: GET_USER_WALLET_SUCCESS,
-            payload: response.data,
-        });
-
-
+                Authorization: `Bearer ${jwt}`,
+                'Content-Type': 'application/json',
+            },
+          });
+  
+          if (response.status === 200) { // Asegúrate de que la respuesta es correcta
+            const data = response.data; // Axios ya convierte la respuesta a JSON
+            dispatch({ type: GET_USER_WALLET_SUCCESS, payload: data });
+        } else {
+            console.error('Error en la respuesta del servidor:', response.statusText);
+            dispatch({ type: GET_USER_WALLET_FAILURE, payload: 'Error en la respuesta del servidor' });
+        }
     } catch (error) {
-        console.log(error);
-        dispatch({
-            type: GET_USER_WALLET_FAILURE,
-            error: error.message
-        })
+        console.error('Error al obtener datos:', error);
+        dispatch({ type: GET_USER_WALLET_FAILURE, payload: error.message });
     }
-};
-
-
+}
 export const getWalletTransactions = ({ jwt }) => async (dispatch) => {
     dispatch({ type: GET_WALLET_TRANSACTIONS_REQUEST })
 

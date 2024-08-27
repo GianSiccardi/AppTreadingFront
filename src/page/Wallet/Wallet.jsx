@@ -18,40 +18,45 @@ function useQuery(){
 }
 
 const Wallet = () => {
-
-const dispatch =useDispatch();
-const {wallet}=useSelector(store=>store)
-const query=useQuery()
-const orderId=query.get("order_id");
-const paymentId=query.get("payment_id")
-const stripePaymentId=query.get("stripe_payment_id")
-const navigate=useNavigate();
-
-const handleFetchUserWalle=()=>{
-  dispatch(getUserWallet(localStorage.getItem("jwt")))
-}
+  const dispatch = useDispatch();
+  const wallet = useSelector(store => store.wallet);
 
 
-const handleFetchWalletTransaction=()=>{
-  dispatch(getUserWallet(localStorage.getItem("jwt")))
-}
+  console.log("Conectando a la store", wallet);
 
-useEffect(()=>{
-  handleFetchUserWalle();
-handleFetchWalletTransaction();
-},[])
+  const query = useQuery();
+  const orderId = query.get("order_id");
+  const paymentId = query.get("payment_id");
+  const stripePaymentId = query.get("stripe_payment_id");
+  const navigate = useNavigate();
 
+  const handleFetchUserWalle = () => {
+    console.log("Intentando despachar getUserWallet");
+    dispatch(getUserWallet(localStorage.getItem("jwt")));
+  };
 
-useEffect(()=>{
-if(orderId){
-  dispatch(depositMoney({jwt:localStorage.getItem("jwt"),
-    orderId,
-    paymentId:stripePaymentId|| paymentId,
-    navigate
-  }))
-}
+  const handleFetchWalletTransaction = () => {
+    console.log("Intentando despachar getUserWallet (Transacciones)");
+    dispatch(getUserWallet(localStorage.getItem("jwt")));
+  };
 
-},[orderId,paymentId,stripePaymentId ])
+  useEffect(() => {
+    console.log("Despachando fetchUserWallet");
+    handleFetchUserWalle();
+    handleFetchWalletTransaction();
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (orderId) {
+      console.log("Depósito de dinero en curso");
+      dispatch(depositMoney({
+        jwt: localStorage.getItem("jwt"),
+        orderId,
+        paymentId: stripePaymentId || paymentId,
+        navigate
+      }));
+    }
+  }, [orderId, paymentId, stripePaymentId]);
   
 
 return (
@@ -66,8 +71,7 @@ return (
                   <CardTitle className="text-2xl">Mi billetera</CardTitle>
                   <div className='flex items-center gap-2'></div>
                   <p className='text-gray-200 text-sm'>
-                    #{wallet.userWallet?.id}
-                  </p>
+                  #{wallet.userWallet?.id || "ID no disponible"}                  </p>
                   <CopyIcon size={12} className='cursor-pointer hover:text-slate-300'></CopyIcon>
                 </div>
               </div>
@@ -157,7 +161,7 @@ return (
 
 
         <div className="space-y-5">
-           {wallet.map((item,i)=>
+           {wallet.transactions.map((item, i)=>
 
           <div key={i}>
             <Card className="lg:w-[50%] px-5 flex justify-between items-center p-3">
