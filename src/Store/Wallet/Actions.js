@@ -56,6 +56,8 @@ export const getWalletTransactions = ({ jwt }) => async (dispatch) => {
 
 };
 
+
+
 export const depositMoney = ({ jwt, orderId, paymentId, navigate }) => async (dispatch) => {
     dispatch({ type: DEPOSIT_MONEY_REQUEST })
 

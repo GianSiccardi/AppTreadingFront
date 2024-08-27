@@ -9,7 +9,7 @@ import { transferMoney } from '@/Store/Wallet/Actions';
 const TransferForm = () => {
   const dispatch =useDispatch();
   const {wallet}=useSelector(store=>store)
-const[formData,setFormData]=React.useState({amount:'',walletId:'',porpose:''})
+const[formData,setFormData]=React.useState({amount:'',walletId:'',purpose:''})
 
 
 
@@ -24,7 +24,7 @@ const handleSubmit=()=>{
   jwt:localStorage.getItem("jwt"),
   walletId:formData.walletId,
  reqData:{ amount:formData.amount,
-  purpose:formData.porpose}
+  purpose:formData.purpose}
  }))
 }
   return (

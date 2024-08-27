@@ -166,19 +166,19 @@ return (
           <div key={i}>
             <Card className="lg:w-[50%] px-5 flex justify-between items-center p-3">
               <div className="flex items-center gap-5">
-                <Avatar>
+                <Avatar onClick={handleFetchWalletTransaction}>
                   <AvatarFallback>
                     <ShuffleIcon className='' />
                   </AvatarFallback>
                 </Avatar>
                 <div className="space-y-1">
-                  <h1>Compras</h1>
-                  <p className='text-sm text-gray-500'>2024-05-08</p>
+                  <h1>{item.purpose ||  item.type}</h1>
+                  <p className='text-sm text-gray-500'>{item.date}</p>
                 </div>
               </div>
 
               <div>
-                <p className='text-green-500'> 999 usd</p>
+                <p className='text-green-500'> {item.amount}</p>
               </div>
             </Card>
           </div>)}     
