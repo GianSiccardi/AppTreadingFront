@@ -9,16 +9,17 @@ import {
     GET_WITHDRAWAL_HISTORY_REQUEST,
     GET_WITHDRAWAL_HISTORY_SUCCESS,
     GET_WITHDRAWAL_HISTORY_FAILURE,
-    GET_WITHDRAWAL_REQUEST,
-    GET_WITHDRAWAL_SUCCESS,
-    GET_WITHDRAWAL_FAILURE,
+ 
     ADD_PAYMENT_DETAILS_REQUEST,
     ADD_PAYMENT_DETAILS_SUCCESS,
     ADD_PAYMENT_DETAILS_FAILURE,
     GET_PAYMENT_DETAILS_REQUEST,
     GET_PAYMENT_DETAILS_SUCCESS,
     GET_PAYMENT_DETAILS_FAILURE
-  } from './ActionTypes';
+  } from './ActionsTypes';
+
+
+import PaymentDetails from '@/page/Payment-details/Payment-details';
 
 
 
@@ -95,3 +96,74 @@ dispatch({
         })
     }
   }
+
+/* export const getAllWithdrawalRequest=jwt =>async dispatch=>{
+    dispatch({type:GET_WITHDRAWAL_REQUEST})
+    try{
+
+    }catch(error){
+        dispatch({
+           
+        })
+    }
+  }*/
+
+    export const addPaymentDetails=({paymentDetails,jwt})=>async dispatch=>{
+     dispatch({type: ADD_PAYMENT_DETAILS_REQUEST})
+     try{
+
+     const response=await api.post(`/payment-details`,paymentDetails,{
+       
+        headers: {
+            Authorization: `Bearer ${jwt}`,
+          
+        },   
+        
+     })
+
+     dispatch({
+        type:ADD_PAYMENT_DETAILS_SUCCESS,
+        payload:response.data
+     })
+
+     }catch(error){
+        dispatch({
+            type:ADD_PAYMENT_DETAILS_FAILURE,
+            payload:error.message
+        })
+     }
+    
+
+    }
+    
+
+    export const getPaymentDetails=({jwt})=>async dispatch=>{
+        dispatch({type: GET_PAYMENT_DETAILS_REQUEST})
+        try{
+   
+        const response=await api.post(`/payment-details`,{
+          
+           headers: {
+               Authorization: `Bearer ${jwt}`,
+             
+           },   
+        })
+   
+        dispatch({
+           type:GET_PAYMENT_DETAILS_SUCCESS,
+           payload:response.data
+        })
+   
+        }catch(error){
+           dispatch({
+               type:GET_PAYMENT_DETAILS_FAILURE,
+               payload:error.message
+           })
+        }
+       
+   
+       }
+   
+
+
+

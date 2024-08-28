@@ -4,10 +4,12 @@ import { useForm } from 'react-hook-form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button';
 import { DialogClose } from '@radix-ui/react-dialog';
+import { useDispatch } from 'react-redux';
+import { addPaymentDetails } from '@/Store/WithDrawal/Actions';
 
 
 const PaymentDetailsForm = () => {
-
+   const dispatch=useDispatch();
 
     const form = useForm({
         resolver: "",
@@ -21,7 +23,10 @@ const PaymentDetailsForm = () => {
     })
 
     const onSubmit = (data) => {
-
+dispatch(addPaymentDetails({
+    paymentDetails:data,
+    jwt:localStorage.getItem("jwt")
+}))
     }
     return (
         <div className='px-10 py-2'>

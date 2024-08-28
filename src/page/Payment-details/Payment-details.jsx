@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 
 import {
@@ -11,9 +11,19 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import PaymentDetailsForm from './PaymentDetailsForm'
+import { useDispatch } from 'react-redux'
+import { getPaymentDetails } from '@/Store/WithDrawal/Actions'
 
 
 const PaymentDetails = () => {
+
+  const {withdrawal}=useState(store=>store);
+  const dispatch=useDispatch();
+
+useEffect(()=>{
+  dispatch(getPaymentDetails({jwt:localStorage.getItem("jwt")}))
+})
+
   return (
     <div className='px-20'>
       <h1 className='text-3xl fonto-bold py-10'>Detalles de pago</h1>
