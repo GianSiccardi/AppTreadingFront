@@ -3,12 +3,13 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button';
 import { DialogClose } from '@radix-ui/react-dialog';
 import { useDispatch, useSelector } from 'react-redux'
+import { withdrawalRequest } from '@/Store/WithDrawal/Actions';
 
 const WithDrawlForm = () => {
   const[amount,setAmount]= React.useState(''); 
 
   const dispatch =useDispatch();
-  const {wallet}=useSelector(store=>store)
+  const {wallet,withdrawal}=useSelector(store=>store)
 
 
   const handleChange = (e) => {
@@ -17,9 +18,21 @@ const WithDrawlForm = () => {
   }
 
   const handleSubmit=()=>{
+    dispatch(withdrawalRequest({amount,jwt:localStorage.getItem("jwt")}));
+    console.log(amount)
 
   }
-
+  const maskAccountNumber = (number) => {
+    const length = 10; 
+    if (!number || number.length < length) {
+   
+      return 'Invalid number'; 
+    }
+    const maskedLength = length - 4; 
+    const maskedPart = '*'.repeat(maskedLength); 
+    const visiblePart = number.slice(-4);
+    return maskedPart + visiblePart;
+  };
 
   return (
     <div className='pt-10 space-y-5'>
@@ -47,8 +60,8 @@ const WithDrawlForm = () => {
       <div className="flex items-center gap-5 border px-5 py-2 rounded-md">
 <img className="h-8 w-8" src="https://cdn.pixabay.com/photo/2020/02/18/11/03/bank-4859142_1280.png" alt="" />
 <div>
-<p className='text-xl font-bold '>banco</p>
-<p className=' text-xs'>******1615</p>
+<p className='text-xl font-bold '>{withdrawal.paymentDetails.bankName}</p>
+<p className=' text-xs'>{maskAccountNumber(withdrawal.paymentDetails?.accountNumber)}</p>
 </div>
        </div>
     </div>

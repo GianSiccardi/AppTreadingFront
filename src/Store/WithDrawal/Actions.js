@@ -1,4 +1,5 @@
-import api from '@/config/api';
+import api,{ API_BASE_URL } from '@/config/api';
+import axios from 'axios';
 import {
     WITHDRAWAL_REQUEST,
     WITHDRAWAL_SUCCESS,
@@ -109,10 +110,12 @@ dispatch({
   }*/
 
     export const addPaymentDetails=({paymentDetails,jwt})=>async dispatch=>{
-     dispatch({type: ADD_PAYMENT_DETAILS_REQUEST})
+    
+        console.log("Entrado a la function addPaymenteDetails:"); 
+        dispatch({type: ADD_PAYMENT_DETAILS_REQUEST})
      try{
-
-     const response=await api.post(`/payment-details`,paymentDetails,{
+        console.log("Detalles de pago enviados:", paymentDetails);
+     const response=await axios.post(`${API_BASE_URL}/paymentDetails`,paymentDetails,{
        
         headers: {
             Authorization: `Bearer ${jwt}`,
@@ -121,12 +124,14 @@ dispatch({
         
      })
 
+     console.log('add paymentes--------->:', response.data); 
      dispatch({
         type:ADD_PAYMENT_DETAILS_SUCCESS,
         payload:response.data
      })
 
      }catch(error){
+        console.error('Error al enviar detalles de pago:', error.response || error.message || error);
         dispatch({
             type:ADD_PAYMENT_DETAILS_FAILURE,
             payload:error.message
@@ -141,7 +146,7 @@ dispatch({
         dispatch({type: GET_PAYMENT_DETAILS_REQUEST})
         try{
    
-        const response=await api.post(`/payment-details`,{
+        const response=await api.get(`/paymentDetails`,{
           
            headers: {
                Authorization: `Bearer ${jwt}`,

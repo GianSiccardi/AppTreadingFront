@@ -15,14 +15,15 @@ const PaymentDetailsForm = () => {
         resolver: "",
         defaultValues: {
             accountHolderName: "",
-            isfc: "",
+            ifsc: "",
             confirmAccountNumber:"",
-            accountnUmber: "",
+            accountNumber: "",
             bankName: ""
         }
     })
 
     const onSubmit = (data) => {
+        console.log("Formulario enviado con los datos:", data); 
 dispatch(addPaymentDetails({
     paymentDetails:data,
     jwt:localStorage.getItem("jwt")
@@ -120,7 +121,7 @@ dispatch(addPaymentDetails({
                 )}
             />
            <DialogClose className='w-full'>
-            <Button type="submite" className="w-full py-5" >  Enviar</Button>
+            <Button type="submit" className="w-full py-5" >  Enviar</Button>
             </DialogClose>
                 </form>
             </Form>

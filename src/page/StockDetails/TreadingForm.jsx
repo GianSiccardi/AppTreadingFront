@@ -3,11 +3,20 @@ import React, { useState } from 'react'
 import { Avatar, AvatarImage } from '@radix-ui/react-avatar'
 import { BookmarkFilledIcon, DotIcon } from '@radix-ui/react-icons'
 import { Button } from '@/components/ui/button'
+import { useSelector } from 'react-redux'
 
 const TreadingForm = () => {
 const[orderType,setOrderType]=useState("BUY");
-    const handleChange = () => {
+const [amount,setAmount]=useState(0);
+const [Quantity,setQuantity]=useState(0)
+const{coin}=useSelector(store=>store);
 
+
+
+    const handleChange = (e) => {
+   const amount=e.target.value
+   setAmount(amount)
+   const volume=calculateBuyCost(amount,coin.coinDetails.market_data.current_price.usd)
     }
     return (
         <div className='space-y-10 p-5'>
