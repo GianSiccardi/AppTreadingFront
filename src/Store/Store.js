@@ -14,7 +14,9 @@ coin:coinReducer,
 wallet:walletReducer,
 withdrawal:withdrawalReducer,
 order:orderReducer,
-asset:assetReducer
+asset:assetReducer,
+watchlist:walletReducer
+
 })
 
 

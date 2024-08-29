@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   Table,
   TableBody,
@@ -11,11 +11,24 @@ import {
 import { Avatar, AvatarImage } from '@radix-ui/react-avatar'
 import { Button } from '@/components/ui/button'
 import { BookmarkFilledIcon } from '@radix-ui/react-icons'
+import { useDispatch, useSelector } from 'react-redux'
+import { addItemTOwatchlist, getUserWatchlist } from '@/Store/WatchList/Actions'
 
 const WatchList = () => {
+  const{watchlist}=useSelector(store=>store)
+  const dispatch=useDispatch()
+ 
+ 
   const handleRemoveToWachtList=(value)=>{
+    dispatch(addItemTOwatchlist({coindId:value?.id,jwt:localStorage.getItem("jwt")}))
 
   }
+
+
+  useEffect(()=>{
+    dispatch(getUserWatchlist(localStorage.getItem("jwt")))
+
+  },[])
   return (
     <div className="p-10 lg:px-20">
     <h1 className='font-bold text-3xl pb-5'>Guardados</h1>
@@ -39,22 +52,22 @@ const WatchList = () => {
         </TableRow>
       </TableHeader>
       <TableBody>
-          {[1,1,1,1,1,1,1,1,1].map((item, index) => (
+          {watchlist.items.map((item, index) => (
             <TableRow key={index}>
               <TableCell className="font-medium flex items-center gap-2">
                 <Avatar className='w-8 h-8 flex items-center justify-center'>
                   <AvatarImage
-                    src='https://coin-images.coingecko.com/coins/images/1/large/bitcoin.png?1696501400'
+                    src={item.image}
                     className='w-full h-full object-cover'
                   />
                 </Avatar>
-                <span>Bitcoin</span>
+                <span>{item.name}</span>
               </TableCell>
-              <TableCell>BTC</TableCell>
-              <TableCell>1000000000</TableCell>
-              <TableCell>1000000000</TableCell>
-              <TableCell>1000000000</TableCell>
-              <TableCell>1000000000</TableCell>
+              <TableCell>{item.symbol}</TableCell>
+              <TableCell>{item.total_Volume}</TableCell>
+              <TableCell>{item.market_cap}</TableCell>
+              <TableCell>${item.prince_change_percentage_24h}</TableCell>
+              <TableCell>{item.current_price}</TableCell>
               <TableCell className="text-right">
                 <Button size="icon"  variant="outline" onClick={()=>handleRemoveToWachtList(item.id)}>
                   <BookmarkFilledIcon className='w-6 h-6'></BookmarkFilledIcon>

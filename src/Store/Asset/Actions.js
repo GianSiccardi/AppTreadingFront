@@ -48,6 +48,7 @@ export const getAsset = (assetId ,jwt) => async (dispatch) => {
 
       console.log("user assests---->",response.data)
     } catch (error) {
+      console.log("user data ---->",error.response?.data)
       dispatch({
         type: GET_USER_ASSETS_FAILURE,
         payload: error.message
@@ -65,6 +66,8 @@ export const getAsset = (assetId ,jwt) => async (dispatch) => {
         payload: response.data
       });
     } catch (error) {
+      console.log("asset detials ---->",error.response?.data)
+
       dispatch({
         type: GET_ASSET_DETAILS_FAILURE,
         payload: error.message

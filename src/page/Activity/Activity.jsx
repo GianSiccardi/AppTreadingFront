@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   Table,
   TableBody,
@@ -9,8 +9,19 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Avatar, AvatarImage } from '@radix-ui/react-avatar'
+import { useDispatch, useSelector } from 'react-redux'
+import { getAllOrders } from '@/Store/Order/Actions'
+import { store } from '@/Store/Store'
+import { calculateProfile } from '@/utils/calculateProfile'
 
 const Activity = () => {
+
+  const dispatch=useDispatch();
+  const {order}=useSelector(store=>store)
+
+  useEffect(()=>{
+  dispatch(getAllOrders({jwt:localStorage.getItem("jwt")}))
+  },[])
   return (
     <div className="p-10 lg:px-20">
     <h1 className='font-bold text-3xl pb-5'>Actividad</h1>
@@ -33,7 +44,7 @@ const Activity = () => {
         </TableRow>
       </TableHeader>
       <TableBody>
-          {[1,1,1,1,1,1,1,1,1].map((item, index) => (
+          {order.orders.map((item, index) => (
             <TableRow key={index}>
                    <TableCell className="pl-5">
                   <p>2024/04</p>
@@ -44,17 +55,18 @@ const Activity = () => {
                 <Avatar className='w-8 h-8 flex items-center justify-center'>
            
                   <AvatarImage
-                    src='https://coin-images.coingecko.com/coins/images/1/large/bitcoin.png?1696501400'
-                    className='w-full h-full object-cover'
+                src={item.orderItem.coin.image}
+ className='w-full h-full object-cover'
                   />
                 </Avatar>
-                <span>Bitcoin</span>
+                <span>{item.orderItem.coin.name}</span>
               </TableCell>
-              <TableCell>BTC</TableCell>
-              <TableCell>1000000000</TableCell>
-              <TableCell>1000000000</TableCell>
-              <TableCell>1000000000</TableCell>
-              <TableCell>1000000000</TableCell>
+              <TableCell>{item.orderItem.buyPrice}</TableCell>
+              <TableCell>{item.orderItem.sellPrice}</TableCell>
+              <TableCell>{item.orderType}</TableCell>
+      
+              <TableCell>{calculateProfile(item)}</TableCell>
+              <TableCell className="text-right">{item.price}</TableCell>
               
             </TableRow>
           ))}
