@@ -8,6 +8,9 @@ import {
   GET_USER_ASSETS_REQUEST,
   GET_USER_ASSETS_SUCCESS,
   GET_USER_ASSETS_FAILURE,
+  GET_ASSET_DETAILS_REQUEST,
+  GET_ASSET_DETAILS_SUCCESS,
+  GET_ASSET_DETAILS_FAILURE 
 
   } from './ActionTypes';
 
@@ -53,7 +56,7 @@ export const getAsset = (assetId ,jwt) => async (dispatch) => {
   };
   
 
- /* export const getAssetDetails = (assetId) => async (dispatch) => {
+  export const getAssetDetails = (assetId) => async (dispatch) => {
     dispatch({ type: GET_ASSET_DETAILS_REQUEST });
     try {
       const response = await axios.get(`${API_BASE_URL}/assets/${assetId}/details`);
@@ -67,4 +70,4 @@ export const getAsset = (assetId ,jwt) => async (dispatch) => {
         payload: error.message
       });
     }
-  };*/
+  }
