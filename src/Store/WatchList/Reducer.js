@@ -7,7 +7,7 @@ import {
     ADD_COIN_TO_WATCHLIST_REQUEST,
     ADD_COIN_TO_WATCHLIST_SUCCESS,
     ADD_COIN_TO_WATCHLIST_FAILURE,
-  } from './ActionsTypes3';
+  } from './ActionsTypes';
   
   const initialState = {
     watchlist: [],
@@ -36,9 +36,9 @@ import {
         };
   
       case ADD_COIN_TO_WATCHLIST_SUCCESS:
-        let updateItems=existInWatchList(state.items,action.payload)
-        ?state.items.filter((item)=>item.id!== action.payload.id)
-        :[action.payload,...state.items]
+        const updateItems = state.items && existInWatchList(state.items, action.payload)
+        ? state.items.filter((item) => item.id !== action.payload.id)
+        : [action.payload, ...(state.items || [])];
         return {
           ...state,
           loading: false,

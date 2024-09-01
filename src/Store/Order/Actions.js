@@ -11,7 +11,7 @@ import {
   GET_ALL_ORDERS_REQUEST,
   GET_ALL_ORDERS_SUCCESS,
   GET_ALL_ORDERS_FAILURE
-} from './ActionTypes';
+} from './ActionsTypes';
 
 // Acción para pagar un pedido
 export const payOrder = (jwt, orderData,amount) => async (dispatch) => {

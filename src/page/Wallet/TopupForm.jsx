@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { API_BASE_URL } from '@/config/api';
 import { paymentHandle } from '@/Store/Wallet/Actions';
 import { DotFilledIcon } from '@radix-ui/react-icons';
 
@@ -18,20 +19,44 @@ const dispatch=useDispatch();
 
 
 const handleChange = (e) => {
-    console.log("Método de pago seleccionado:", value);  // Verifica si la función se llama y qué valor tiene
-    setAmount(e.target.value);
+    console.log("Monto ingresado:", e.target.value);  // Muestra el valor del input
+    setAmount(e.target.value);  // Actualiza el estado con el nuevo valor
 }
 
 const handlePaymentMethodChange = (value) => {
+    console.log("Método de pago seleccionado:", value);
     setPaymentMethod(value);
 }
 
 const handleSubmit=()=>{
-dispatch(paymentHandle({jwt:localStorage.getItem("jwt"),
+
+    if (!paymentMethod || !amount) {
+        console.error("Método de pago o monto no definidos");
+        return;
+    }
+/*dispatch(paymentHandle({jwt:localStorage.getItem("jwt"),
     paymentMethod,
     amount
-}))
+}))*/
+const jwt = localStorage.getItem("jwt");
+if (!jwt) {
+  console.error("JWT no encontrado en el localStorage");
+  return;
 }
+
+dispatch(paymentHandle({ jwt, paymentMethod, amount }))
+  .then(response => {
+    if (response.payload.success) {
+      window.location.href = `${API_BASE_URL}/wallet`; 
+    } else {
+      console.error('Error:', response.payload.error);
+    }
+  })
+  .catch(error => {
+    console.error('Error en la solicitud de pago:', error);
+  });
+};
+
 
 
 return (

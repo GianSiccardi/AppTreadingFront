@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button'
 import { BookmarkFilledIcon } from '@radix-ui/react-icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { addItemTOwatchlist, getUserWatchlist } from '@/Store/WatchList/Actions'
+import { existInWatchList } from '@/utils/existInWatchList'
 
 const WatchList = () => {
   const{watchlist}=useSelector(store=>store)
@@ -25,10 +26,14 @@ const WatchList = () => {
   }
 
 
-  useEffect(()=>{
-    dispatch(getUserWatchlist(localStorage.getItem("jwt")))
-
-  },[])
+  useEffect(() => {
+    const jwt = localStorage.getItem("jwt");
+    if (jwt) {
+        dispatch(getUserWatchlist(jwt));
+    } else {
+        console.error('No JWT token found');
+    }
+}, [dispatch]);
   return (
     <div className="p-10 lg:px-20">
     <h1 className='font-bold text-3xl pb-5'>Guardados</h1>

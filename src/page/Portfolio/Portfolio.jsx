@@ -18,9 +18,12 @@ const Portfolio = () => {
   const dispatch=useDispatch();
   const {asset}=useSelector(store=>store)
 
-  useEffect(()=>{
-    dispatch(getUserAssets({jwt:localStorage.getItem("jwt")}))
-  },[])
+  useEffect(() => {
+    const jwt = localStorage.getItem("jwt");
+    console.log('JWT Token:', jwt);
+    dispatch(getUserAssets(jwt));
+  }, [dispatch]);
+  
   return (
 <div className="p-10 lg:px-20">
   <h1 className='font-bold text-3xl pb-5'>Portfolio</h1>
@@ -43,7 +46,7 @@ const Portfolio = () => {
     </TableHeader>
     <TableBody>
       
-        {asset.userAssests.map((item, index) => (// si no funciona agrega los [asset]
+        {asset.userAssets.map((item, index) => (// si no funciona agrega los [asset]
           <TableRow key={index}>
             <TableCell className="font-medium flex items-center gap-2">
               <Avatar className='w-8 h-8 flex items-center justify-center'>
