@@ -27,16 +27,24 @@ const StockDetails = () => {
 
   const { coinId } = useParams(); 
   const dispatch = useDispatch();
+
+  console.log('Coin ID from URL:', coinId);
  
   const handleAddToWatchlist = () => {
-    console.log('handleAddToWatchlist called');
-    const coinId = coin.coinDetails?.coinId;
-    const jwt = localStorage.getItem("jwt");
-    if (coinId && jwt) {
-        dispatch(addItemTOwatchlist(coinId, jwt));
-    }
+
+
+const id=coin.coinDetails?.id
     
-};
+      const jwt = localStorage.getItem("jwt");
+    
+  
+    if (coinId && jwt) {
+        dispatch(addItemTOwatchlist(id,jwt));
+    } else {
+        console.error('Either Coin ID or JWT is missing');
+    }
+}
+
 
  /* const handleAddToWatchlist = () => {
     dispatch(addItemTOwatchlist(coin.coinDetails?.id, localStorage.getItem("jwt")));
@@ -48,11 +56,12 @@ const StockDetails = () => {
         dispatch(fetchCoinDetails({ coinId, jwt }));
     }
     if (jwt) {
-        dispatch(getUserWatchlist({ jwt }));
+        dispatch(getUserWatchlist( jwt ));
     } else {
         console.error('JWT Token not found in localStorage');
     }
 }, [coinId]);
+
   
 
   const item = coin.coinDetails;

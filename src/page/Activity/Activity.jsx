@@ -11,8 +11,6 @@ import {
 import { Avatar, AvatarImage } from '@radix-ui/react-avatar'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllOrders } from '@/Store/Order/Actions'
-import { store } from '@/Store/Store'
-import { calculateProfile } from '@/utils/calculateProfile'
 
 const Activity = () => {
 
@@ -26,7 +24,7 @@ const Activity = () => {
     <div className="p-10 lg:px-20">
     <h1 className='font-bold text-3xl pb-5'>Actividad</h1>
     <Table>
-      <TableCaption>A list of your recent invoices.</TableCaption>
+      
       <TableHeader>
         <TableRow>
           <TableHead className="p-5">
@@ -36,7 +34,7 @@ const Activity = () => {
           <TableHead>Precio compra</TableHead>
           <TableHead>Precio venta</TableHead>
           <TableHead>Tipo de orden</TableHead>
-          <TableHead>Ganancia/Peridida</TableHead>
+         
           <TableHead>Valor</TableHead>
 
     
@@ -64,9 +62,8 @@ const Activity = () => {
               <TableCell>{item.orderItem.buyPrice}</TableCell>
               <TableCell>{item.orderItem.sellPrice}</TableCell>
               <TableCell>{item.orderType}</TableCell>
-      
-              <TableCell>{calculateProfile(item)}</TableCell>
-              <TableCell className="text-right">{item.price}</TableCell>
+             
+              <TableCell className="">{item.price}</TableCell>
               
             </TableRow>
           ))}

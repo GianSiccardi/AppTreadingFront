@@ -43,6 +43,7 @@ import {
           ...state,
           loading: false,
           withdrawalData: action.payload,
+          
           error: null
         };
   

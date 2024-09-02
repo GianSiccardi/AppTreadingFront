@@ -15,19 +15,19 @@ import {
   } from './ActionsTypes';
 
   // Action creator for getting asset
-export const getAsset = (assetId ,jwt) => async (dispatch) => {
+export const getAsset = (assetId ) => async (dispatch) => {
     dispatch({ type: GET_ASSET_REQUEST });
     try {
-      const response = await axios.get(`${API_BASE_URL}/assets/${assetId}`,{
-        headers: {
-            Authorization: `Bearer ${jwt}`,
-          
-        },
-      });
+      const response = await axios.get(`${API_BASE_URL}/assets/${assetId}`,
+     
+    );
+
       dispatch({
         type: GET_ASSET_SUCCESS,
         payload: response.data
       });
+
+      console.log("asset detilas ----",response.data)
     } catch (error) {
       dispatch({
         type: GET_ASSET_FAILURE,
@@ -63,10 +63,15 @@ export const getAsset = (assetId ,jwt) => async (dispatch) => {
   
   
 
-  export const getAssetDetails = (assetId) => async (dispatch) => {
+
+  export const getAssetDetails = ({ coinId, jwt }) => async (dispatch) => {
     dispatch({ type: GET_ASSET_DETAILS_REQUEST });
     try {
-      const response = await axios.get(`${API_BASE_URL}/assets/${assetId}/details`);
+      const response = await axios.get(`${API_BASE_URL}/assets/coin/${coinId}/customer`, {
+        headers: {
+          Authorization: `Bearer ${jwt}`
+        }
+      });
       dispatch({
         type: GET_ASSET_DETAILS_SUCCESS,
         payload: response.data
@@ -79,4 +84,5 @@ export const getAsset = (assetId ,jwt) => async (dispatch) => {
         payload: error.message
       });
     }
-  }
+  };
+  

@@ -14,24 +14,33 @@ import {
 } from './ActionsTypes';
 
 // Acción para pagar un pedido
-export const payOrder = (jwt, orderData,amount) => async (dispatch) => {
+export const payOrder = (jwt, orderData, amount) => async (dispatch) => {
   dispatch({ type: PAY_ORDER_REQUEST });
   try {
-    
-    
-    const response = await axios.post(`${API_BASE_URL}/orders/pay`, orderData,{
-        headers: {
-            Authorization: `Bearer ${jwt}`,
-          
-        },
+    console.log("Request URL:", `${API_BASE_URL}/orders/pay`);
+    console.log("Request Headers:", { Authorization: `Bearer ${jwt}` });
+    console.log("Order Data:", orderData);
+
+    const response = await axios.post(`${API_BASE_URL}/orders/pay`, orderData, {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
     });
-    dispatch({ type: PAY_ORDER_SUCCESS, payload: response.data,amount });
 
-
+    dispatch({
+      type: PAY_ORDER_SUCCESS,
+      payload: response.data,
+      amount,
+    });
   } catch (error) {
-    dispatch({ type: PAY_ORDER_FAILURE, payload: error.message });
+    console.error("Error Response:", error.response);
+    dispatch({
+      type: PAY_ORDER_FAILURE,
+      payload: error.response ? error.response.data : error.message,
+    });
   }
 };
+
 
 
 export const getOrder = (jwt,orderId) => async (dispatch) => {

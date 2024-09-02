@@ -45,12 +45,12 @@ import {
           loading: false
         };
   
-      case GET_ASSET_DETAILS_SUCCESS:
-        return {
-          ...state,
-          assetDetails: action.payload,
-          loading: false
-        };
+        case GET_ASSET_DETAILS_SUCCESS:
+          return {
+            ...state,
+            loading: false,
+            assetDetails: action.payload
+          };
   
       case GET_ASSET_FAILURE:
       case GET_USER_ASSETS_FAILURE:

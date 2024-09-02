@@ -42,7 +42,9 @@ const PaymentDetails = () => {
           <CardHeader>
             <CardTitle>Banco</CardTitle>
             <CardDescription>
-              A/C No: {maskAccountNumber(withdrawal.paymentDetails?.accountNumber)}
+              
+            A/C No: {maskAccountNumber(withdrawal.paymentDetails?.accountNumber)} - 
+            {withdrawal.paymentDetails?.bankName}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -51,15 +53,15 @@ const PaymentDetails = () => {
               <p className='text-gray-400'>{withdrawal.paymentDetails?.accountHolderName}</p>
             </div>
             <div className="flex items-center">
-              <p className='w-32'>ISFC</p>
-              <p className='text-gray-400'>{withdrawal.paymentDetails?.bankName}</p>
+              <p className='w-32'>CVU</p>
+              <p className='text-gray-400'>{withdrawal.paymentDetails?.cvu}</p>
             </div>
           </CardContent>
         </Card>
       ) : (
         <Dialog>
           <DialogTrigger>
-            <Button className="py-6">Agregar detalles de pagos</Button>
+            <Button className="py-6">Asociar cuenta bancaria</Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>

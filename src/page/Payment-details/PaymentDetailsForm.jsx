@@ -21,14 +21,24 @@ const PaymentDetailsForm = () => {
             bankName: ""
         }
     })
-
     const onSubmit = (data) => {
-        console.log("Formulario enviado con los datos:", data); 
-dispatch(addPaymentDetails({
-    paymentDetails:data,
-    jwt:localStorage.getItem("jwt")
-}))
-    }
+        console.log("Formulario enviado con los datos:", data);
+    
+        const jwt = localStorage.getItem("jwt");
+    
+        if (!jwt) {
+            console.error("JWT no encontrado en el localStorage. No se puede proceder con la solicitud.");
+            return; 
+        }
+    
+        dispatch(addPaymentDetails({
+            paymentDetails: data,
+            jwt: jwt
+        }));
+    };
+    
+    
+    
     return (
         <div className='px-10 py-2'>
             <Form {...form}>
@@ -52,15 +62,15 @@ dispatch(addPaymentDetails({
 
                     <FormField
                         control={form.control}
-                        name="isfc"
+                        name="cvu"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>IFSC code</FormLabel>
+                                <FormLabel>CVU</FormLabel>
                                 <FormControl>
                                     <Input
                                        // name="isfc"
                                         className="border w-full border-gray-700 p-5"
-                                        placeholder="isfc" {...field} />
+                                        placeholder="CVU" {...field} />
                                 </FormControl>
 
                                 <FormMessage />

@@ -28,7 +28,7 @@ const Portfolio = () => {
 <div className="p-10 lg:px-20">
   <h1 className='font-bold text-3xl pb-5'>Portfolio</h1>
   <Table>
-    <TableCaption>A list of your recent invoices.</TableCaption>
+
     <TableHeader>
       <TableRow>
         <TableHead className="">
@@ -57,11 +57,11 @@ const Portfolio = () => {
               </Avatar>
               <span>{item.coin.name}</span>
             </TableCell>
-            <TableCell>{item.coin.symbol.toUpperCase()}</TableCell>
-            <TableCell>{item.quantity}</TableCell>
-            <TableCell>{item.price_change_24h}</TableCell>
-            <TableCell>{item.price_change_percentage_24h}</TableCell>
-            <TableCell className="text-right">{item.coin.total_volume}</TableCell>
+            <TableCell >{item.coin.symbol.toUpperCase()}</TableCell>
+            <TableCell className="font-medium">{item.quantity}</TableCell>
+            <TableCell className="font-medium">{item.coin.price_change_24h}</TableCell>
+            <TableCell className="font-medium">{item.coin.price_change_percentage_24h}</TableCell>
+            <TableCell  className="font-medium">{item.coin.total_volume}</TableCell>
           </TableRow>
         ))}
       </TableBody>

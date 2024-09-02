@@ -22,6 +22,7 @@ const Withdrawal = () => {
     dispatch(getWithdrawalHistory(localStorage.getItem("jwt")))
   },[])
 
+
   return (
     <div className="p-10 lg:px-20">
     <h1 className='font-bold text-3xl pb-5'>Retiros</h1>
@@ -40,19 +41,19 @@ const Withdrawal = () => {
         </TableRow>
       </TableHeader>
       <TableBody>
-          {[withdrawal.withdrawalHistory].map((item, index) => (
+          {withdrawal.withdrawalHistory.map((item, index) => (
             <TableRow key={index}>
                    <TableCell className="pl-5">
                   <p>{item.dateTime ? item.dateTime.toString() : 'N/A'}</p>
                 
                 </TableCell>
              
-                <TableCell>Banco</TableCell>
+                <TableCell>Banco</TableCell> 
 
               
               <TableCell>{item.amount}</TableCell>
              
-              <TableCell className="text-right">{item.status}</TableCell>
+              <TableCell>Completado</TableCell>
               
             </TableRow>
           ))}

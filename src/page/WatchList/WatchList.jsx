@@ -12,7 +12,7 @@ import { Avatar, AvatarImage } from '@radix-ui/react-avatar'
 import { Button } from '@/components/ui/button'
 import { BookmarkFilledIcon } from '@radix-ui/react-icons'
 import { useDispatch, useSelector } from 'react-redux'
-import { addItemTOwatchlist, getUserWatchlist } from '@/Store/WatchList/Actions'
+import { addItemTOwatchlist, getUserWatchlist, removeItemTOwatchlist } from '@/Store/WatchList/Actions'
 import { existInWatchList } from '@/utils/existInWatchList'
 
 const WatchList = () => {
@@ -20,10 +20,16 @@ const WatchList = () => {
   const dispatch=useDispatch()
  
  
-  const handleRemoveToWachtList=(value)=>{
-    dispatch(addItemTOwatchlist({coindId:value?.id,jwt:localStorage.getItem("jwt")}))
+  const handleRemoveToWachtList = (coinId) => {
+    console.log('coinId passed to handleRemoveToWachtList:', coinId);
+    
+    if (coinId) {
+        dispatch(removeItemTOwatchlist({ coinId, jwt: localStorage.getItem("jwt") }));
+    } else {
+        console.error('Invalid coinId passed to handleRemoveToWachtList');
+    }
+};
 
-  }
 
 
   useEffect(() => {
@@ -38,7 +44,7 @@ const WatchList = () => {
     <div className="p-10 lg:px-20">
     <h1 className='font-bold text-3xl pb-5'>Guardados</h1>
     <Table className="border-x">
-      <TableCaption>A list of your recent invoices.</TableCaption>
+ 
       <TableHeader>
         <TableRow>
           <TableHead className="py-5">
@@ -69,9 +75,9 @@ const WatchList = () => {
                 <span>{item.name}</span>
               </TableCell>
               <TableCell>{item.symbol}</TableCell>
-              <TableCell>{item.total_Volume}</TableCell>
+              <TableCell>{item.total_volume}</TableCell>
               <TableCell>{item.market_cap}</TableCell>
-              <TableCell>${item.prince_change_percentage_24h}</TableCell>
+              <TableCell>${item.price_change_percentage_24h}</TableCell>
               <TableCell>{item.current_price}</TableCell>
               <TableCell className="text-right">
                 <Button size="icon"  variant="outline" onClick={()=>handleRemoveToWachtList(item.id)}>

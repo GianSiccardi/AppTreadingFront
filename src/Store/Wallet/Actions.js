@@ -20,8 +20,8 @@ export const getUserWallet = (jwt) => async (dispatch) => {
             },
           });
   
-          if (response.status === 200) { // Asegúrate de que la respuesta es correcta
-            const data = response.data; // Axios ya convierte la respuesta a JSON
+          if (response.status === 200) {
+            const data = response.data;
             dispatch({ type: GET_USER_WALLET_SUCCESS, payload: data });
         } else {
             console.error('Error en la respuesta del servidor:', response.statusText);

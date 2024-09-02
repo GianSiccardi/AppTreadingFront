@@ -29,7 +29,7 @@ import PaymentDetails from '@/page/Payment-details/Payment-details';
 
     try{
 
-       const response =await api.post(`/withdrawal/${amount}`,null,{
+       const response =await axios.post(`${API_BASE_URL}/withdrawal/${amount}`,null,{
         headers: {
             Authorization: `Bearer ${jwt}`,
           
@@ -76,7 +76,7 @@ import PaymentDetails from '@/page/Payment-details/Payment-details';
   export const getWithdrawalHistory=jwt=>async dispatch=>{
     dispatch({type:GET_WITHDRAWAL_HISTORY_REQUEST})
     try{
-const response=await api.get(`/withdrawal`,{
+const response=await axios.get(`${API_BASE_URL}/withdrawal`,{
     headers: {
         Authorization: `Bearer ${jwt}`,
       
@@ -109,44 +109,46 @@ dispatch({
     }
   }*/
 
-    export const addPaymentDetails=({paymentDetails,jwt})=>async dispatch=>{
+    export const addPaymentDetails = ({ paymentDetails, jwt }) => async dispatch => {
+        console.log("Entrado a la función addPaymentDetails:"); 
+        dispatch({ type: ADD_PAYMENT_DETAILS_REQUEST });
     
-        console.log("Entrado a la function addPaymenteDetails:"); 
-        dispatch({type: ADD_PAYMENT_DETAILS_REQUEST})
-     try{
-        console.log("Detalles de pago enviados:", paymentDetails);
-     const response=await axios.post(`${API_BASE_URL}/paymentDetails`,paymentDetails,{
-       
-        headers: {
-            Authorization: `Bearer ${jwt}`,
-          
-        },   
-        
-     })
-
-     console.log('add paymentes--------->:', response.data); 
-     dispatch({
-        type:ADD_PAYMENT_DETAILS_SUCCESS,
-        payload:response.data
-     })
-
-     }catch(error){
-        console.error('Error al enviar detalles de pago:', error.response || error.message || error);
-        dispatch({
-            type:ADD_PAYMENT_DETAILS_FAILURE,
-            payload:error.message
-        })
-     }
+        if (!jwt) {
+            console.error("JWT no encontrado en el localStorage");
+            return;
+        }
     
-
-    }
+        try {
+            console.log("Detalles de pago enviados:", paymentDetails);
+    
+            const response = await axios.post(`${API_BASE_URL}/paymentDetails`, paymentDetails, {
+                headers: {
+                    Authorization: `Bearer ${jwt}`
+                }
+            });
+    
+            console.log('add payment details response:', response.data);
+            dispatch({
+                type: ADD_PAYMENT_DETAILS_SUCCESS,
+                payload: response.data,
+            });
+    
+        } catch (error) {
+            console.error('Error al enviar detalles de pago:', error.response?.status, error.response?.data || error.message);
+            dispatch({
+                type: ADD_PAYMENT_DETAILS_FAILURE,
+                payload: error.message,
+            });
+        }
+    };
+    
     
 
     export const getPaymentDetails=({jwt})=>async dispatch=>{
         dispatch({type: GET_PAYMENT_DETAILS_REQUEST})
         try{
    
-        const response=await api.get(`/paymentDetails`,{
+        const response=await axios.get(`${API_BASE_URL}/paymentDetails`,{
           
            headers: {
                Authorization: `Bearer ${jwt}`,

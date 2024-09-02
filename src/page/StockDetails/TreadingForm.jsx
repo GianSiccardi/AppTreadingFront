@@ -12,10 +12,13 @@ const TreadingForm = () => {
 const[orderType,setOrderType]=useState("BUY");
 const [amount,setAmount]=useState(0);
 const [quantity,setQuantity]=useState(0)
-const{coin ,wallet,asset}=useSelector(store=>store);
+const{coin ,wallet}=useSelector(store=>store);
+const asset = useSelector(state => state.asset);
 const dispatch=useDispatch();
 
-
+useEffect(() => {
+    console.log("Initial Asset State:", asset);
+}, []);
 
     const handleChange = (e) => {
    const amount=e.target.value
@@ -35,21 +38,45 @@ const dispatch=useDispatch();
        return volume.toFixed(decimalPlaces);
     }
 
-    useEffect(()=>{
-        dispatch(getUserWallet(localStorage.getItem("jwt")));
-        dispatch(getAssetDetails({coindId:coin.coinDetails.id,jwt:localStorage.getItem("jwt")}))
-
-    },[])
-
-    const handleBuyCripto=()=>{
-        dispatch(payOrder({jwt:localStorage.getItem("jwt")
-            ,amount,
-            orderData:{coinId:coin.coinDetails?.id,
-             quantity,
-             orderType   
+    useEffect(() => {
+        const jwt = localStorage.getItem("jwt");
+        const coinId = coin.coinDetails?.id; 
+    
+        if (jwt) {
+            dispatch(getUserWallet(jwt));
+      
+            if (coinId) {
+                dispatch(getAssetDetails({
+                    coinId,
+                    jwt
+                }));
+            } else {
+                console.error("Coin ID is not available");
             }
-        }))
-    }
+        } else {
+            console.error("JWT Token not found in localStorage");
+        }
+    }, [dispatch, coin.coinDetails?.id]); // Incluye las dependencias necesarias
+    
+    const handleBuyCripto = () => {
+        const jwt = localStorage.getItem("jwt");
+        const orderData = {
+            coinId: coin.coinDetails?.id,
+            quantity,
+            orderType
+        };
+    
+       console.log("token verificado")
+        dispatch(payOrder(jwt, orderData, amount))
+            .then(response => {
+                console.log("Pay Order Response:", response);
+            })
+            .catch(error => {
+                console.error("Pay Order Error:", error);
+            });
+    };
+
+    
     return (
         <div className='space-y-10 p-5'>
             <div className="">
@@ -72,19 +99,19 @@ const dispatch=useDispatch();
             <div className="">
             <div className="flex gap-5 items-center">
       <Avatar>
-        <AvatarImage src='https://coin-images.coingecko.com/coins/images/279/large/ethereum.png?1696501628' />
+        <AvatarImage src={coin.coinDetails?.image.large}/>
       </Avatar>
       <div className="flex flex-col gap-2">  
         <div className="flex items-center gap-2">
-          <p>BTC</p>
-          <DotIcon className='text-gray-400' />
-          <p className='text-gray-400'>Bitcoin</p>
+        <p className='text-gray-400'>{coin.coinDetails?.symbol?.toUpperCase()}</p>
+        <DotIcon className='text-gray-400' />
+          <p className='text-gray-400'>{coin.coinDetails?.name}</p>
         </div>
         <div className="flex items-end gap-2 mt-2">  
           <p className='text-xl font-bold'>{coin.coinDetails?.market_data.current_price.usd}</p>
           <p className='text-red-600'>
-            <span>-1354879878.578</span>
-            <span>(-0.29803%)</span>
+            <span>{coin.coinDetails.market_data.price_change_24h}</span>
+            <span>(%{coin.coinDetails.market_data.price_change_percentage_24h})</span>
           </p>
         </div>
       </div>

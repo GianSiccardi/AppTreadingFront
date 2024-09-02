@@ -20,7 +20,7 @@ function useQuery(){
 const Wallet = () => {
   const dispatch = useDispatch();
   const wallet = useSelector(store => store.wallet);
-
+  
 
   console.log("Conectando a la store", wallet);
 
@@ -57,7 +57,10 @@ const Wallet = () => {
       }));
     }
   }, [orderId, paymentId, stripePaymentId]);
-  
+
+
+  console.log("Contenido de wallet:", wallet);
+  console.log("Contenido de wallet.transactions:", wallet.transactions);
 
 return (
     <div className='flex flex-col items-center'>
@@ -107,7 +110,7 @@ return (
                 </DialogContent>
               </Dialog>
 
-              <Dialog>
+              <Dialog  >
                 <DialogTrigger>
                   <div className="h-24 w-24 hover:text-gray-400 cursor-pointer 
                                   flex flex-col items-center justify-center rounded-md shadow-slate-800 shadow-md">
@@ -158,35 +161,39 @@ return (
 
 
         </div>
+<div className="space-y-5">
+    {wallet.userWallet && wallet.userWallet.transactions && wallet.userWallet.transactions.length > 0 ? (
+        wallet.userWallet.transactions.map((item, i) => (
+            <div key={i}>
+                <Card className="lg:w-[50%] px-5 flex justify-between items-center p-3">
+                    <div className="flex items-center gap-5">
+                        <Avatar onClick={handleFetchWalletTransaction}>
+                            <AvatarFallback>
+                                <ShuffleIcon className='' />
+                            </AvatarFallback>
+                        </Avatar>
+                        <div className="space-y-1">
+                            <h1>{item.purpose || item.walletTransactionType}</h1>
+                            <p className='text-sm text-gray-500'>{item.date}</p>
+                        </div>
+                    </div>
+                    <div>
+                        <p className='text-green-500'>{item.amount}</p>
+                    </div>
+                </Card>
+            </div>
+        ))
+    ) : (
+        <p>No hay transacciones disponibles.</p>
+    )}
+</div>
 
 
-        <div className="space-y-5">
-           {wallet.transactions.map((item, i)=>
-
-          <div key={i}>
-            <Card className="lg:w-[50%] px-5 flex justify-between items-center p-3">
-              <div className="flex items-center gap-5">
-                <Avatar onClick={handleFetchWalletTransaction}>
-                  <AvatarFallback>
-                    <ShuffleIcon className='' />
-                  </AvatarFallback>
-                </Avatar>
-                <div className="space-y-1">
-                  <h1>{item.purpose ||  item.type}</h1>
-                  <p className='text-sm text-gray-500'>{item.date}</p>
-                </div>
-              </div>
-
-              <div>
-                <p className='text-green-500'> {item.amount}</p>
-              </div>
-            </Card>
-          </div>)}     
       
         </div>
 
       </div>
-    </div>
+ 
   )
 }
 
