@@ -59,7 +59,7 @@ const navigate=useNavigate();
           </TableRow>
         ))}
       </TableBody>
-      <TableCaption>A list of your recent invoices.</TableCaption>
+      
     </ScrollArea>
   </Table>
   

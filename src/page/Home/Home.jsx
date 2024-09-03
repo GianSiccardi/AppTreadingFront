@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import React from 'react'
+import React, { useState } from 'react'
 import AssetTable from './AssetTable';
 import StockChart from './StockChart';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
@@ -25,9 +25,10 @@ const Home = () => {
     const [category, setCategory] = React.useState("all");
     const [inputValue, setInputValue] = React.useState("")
     const [isBotRealease, setIsBotRealease] = React.useState(false);
-
+    const [page, setPage] = useState(1);
 
     const { coin } = useSelector(store => store)
+    console.log("COOOOOOOOOOOOOOOOOINS", coin)
 
     const dispatch = useDispatch();
     const handleBotRelease = () => setIsBotRealease(!isBotRealease);
@@ -48,6 +49,15 @@ const Home = () => {
 
         setInputValue("");
     }
+    const handlePreviousPage = () => {
+        if (page > 1) {
+            setPage((prevPage) => prevPage - 1);
+        }
+    }
+
+    const handleNextPage = () => {
+        setPage((prevPage) => prevPage + 1);
+    };
 
     useEffect(() => {
         if (category === "top50") {
@@ -58,8 +68,8 @@ const Home = () => {
 
     useEffect(() => {
 
-        dispatch(getCoinList(1))
-    }, [])
+        dispatch(getCoinList(page))
+    }, [page])
 
     return (
         <div className='relative'>
@@ -85,18 +95,18 @@ const Home = () => {
                     <div className="">
                         <Pagination>
                             <PaginationContent>
+                                <PaginationPrevious href="#" onClick={handlePreviousPage} disabled={page === 1}>
+                                    Anterior
+                                </PaginationPrevious>
                                 <PaginationItem>
-                                    <PaginationPrevious href="#" />
-                                </PaginationItem>
-                                <PaginationItem>
-                                    <PaginationLink href="#">1</PaginationLink>
+                                    <PaginationLink href="#" onClick={() => setPage(1)}>1</PaginationLink>
                                 </PaginationItem>
                                 <PaginationItem>
                                     <PaginationEllipsis />
                                 </PaginationItem>
-                                <PaginationItem>
-                                    <PaginationNext href="#" />
-                                </PaginationItem>
+                                <PaginationNext href="#" onClick={handleNextPage}>
+                                    Siguiente
+                                </PaginationNext>
                             </PaginationContent>
                         </Pagination>
 
@@ -107,24 +117,24 @@ const Home = () => {
                     <div className="flex gap-5 items-center">
                         <div>
                             <Avatar>
-                                <AvatarImage src={
-                                    "https://coin-images.coingecko.com/coins/images/279/large/ethereum.png?1696501628"
-                                }>
+                                <AvatarImage src={coin.coinList[0].image}
+                                >
 
                                 </AvatarImage>
                             </Avatar>
                             <div>
                                 <div className="flex gap-2 items-center">
-                                    <p>ETH</p>
+                                    <p>{coin.coinList[0].name}</p>
                                     <DotIcon className='text-gray-400'></DotIcon>
-                                    <p className="text-gray-400">Etherum</p>
+                                    <p className="text-gray-400">{(coin.coinList[0].symbol).toUpperCase()}</p>
                                     <div className="flex items-end gap-2">
                                         <p className="text-xl font-bold">
-                                            5464
+                                            {coin.coinList[0].current_price.toLocaleString('es-ES')}
                                         </p>
+
                                         <p className="text-red-600">
-                                            <span>-1319041125.578</span>
-                                            <span>(-0.2989%)</span>
+                                            <span>{coin.coinList[0].market_cap_change_24h}</span>
+                                            <span>({coin.coinList[0].market_cap_change_percentage_24h})%</span>
                                         </p>
 
                                     </div>
