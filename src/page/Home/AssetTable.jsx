@@ -51,7 +51,7 @@ const navigate=useNavigate();
               </Avatar>
               <span>{item.name}</span>
             </TableCell>
-            <TableCell>{item.symbol}</TableCell>
+            <TableCell>{(item.symbol).toUpperCase()}</TableCell>
             <TableCell>{item.total_volume}</TableCell>
             <TableCell>{item.market_cap}</TableCell>
             <TableCell>{item.price_change_percentage_24h}</TableCell>

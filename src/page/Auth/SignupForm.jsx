@@ -1,7 +1,8 @@
 import React from 'react'
 
 import { Form, FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from '@/components/ui/form'
-import { useForm } from 'react-hook-form'
+import { useForm} from 'react-hook-form'
+import { useNavigate } from 'react-router-dom';
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button';
 import { DialogClose } from '@radix-ui/react-dialog';
@@ -11,7 +12,7 @@ import { register } from '@/Store/Auth/Action';
 
 
 const SignupForm = () => {
-
+    const navigate = useNavigate();
     const dispatch=useDispatch();
   const form = useForm({
     resolver: "",
@@ -25,6 +26,7 @@ const SignupForm = () => {
 
 const onSubmit = (data) => {
 dispatch(register(data))
+navigate("/")
 }
 return (
     <div className='px-10 py-2'>
@@ -74,7 +76,7 @@ return (
                         
                             <FormControl>
                                 <Input
-                                  // name="accountNumber"
+                                  type="password"
                                     className="border w-full border-gray-700 p-5"
                                     placeholder="Contraseña" {...field} />
                             </FormControl>
@@ -84,7 +86,7 @@ return (
                     )}
                 />
 
-        <Button type="submite" className="w-full py-5" >  Registrarse</Button>
+        <Button type="submit" className="w-full py-5" >  Registrarse</Button>
             </form>
         </Form>
     </div>

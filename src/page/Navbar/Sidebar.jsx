@@ -8,31 +8,31 @@ import { useNavigate } from 'react-router-dom'
 import { logOut } from '@/Store/Auth/Action'
 const menu=[
     {
-        name:"Home",path:"/",icon:<HomeIcon className='h-6 w-6'/>
+        name:"Inicio",path:"/",icon:<HomeIcon className='h-6 w-6'/>
     },
     {
         name:"Portafolio",path:"/portfolio",icon:<DashboardIcon className='h-6 w-6'/>
     },
     {
-        name:"Watchlist",path:"/watchlist",icon:<BookmarkIcon className='h-6 w-6'/>
+        name:"Guardados",path:"/watchlist",icon:<BookmarkIcon className='h-6 w-6'/>
     },
     {
-        name:"Wallet",path:"/wallet",icon:<Wallet className='h-6 w-6'/>
+        name:"Billetera",path:"/wallet",icon:<Wallet className='h-6 w-6'/>
     },
     {
-        name:"PaymentDetails", path:"/payment-details", icon:<DollarSign className='h-6 w-6'/>
+        name:"Detalles", path:"/payment-details", icon:<DollarSign className='h-6 w-6'/>
     } ,
     {
-        name:"Activity",path:"/activity",icon:<ActivityLogIcon className='h-6 w-6'/>
+        name:"Actividad",path:"/activity",icon:<ActivityLogIcon className='h-6 w-6'/>
     },
     {
-        name:"Withdrawal",path:"/withdrawal",icon:<CreditCardIcon className='h-6 w-6'/>
+        name:"Retiro",path:"/withdrawal",icon:<CreditCardIcon className='h-6 w-6'/>
     },
     {
-        name:"Profile",path:"/profile",icon:<PersonIcon className='h-6 w-6'/>
+        name:"Perfil",path:"/profile",icon:<PersonIcon className='h-6 w-6'/>
     },
     {
-        name:"LogOut",path:"/",icon:<ExitIcon className='h-6 w-6'/>
+        name:"Salir",path:"/",icon:<ExitIcon className='h-6 w-6'/>
     },
 ]
 

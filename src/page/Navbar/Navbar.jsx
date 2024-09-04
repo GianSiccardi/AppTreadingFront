@@ -53,13 +53,7 @@ const{auth}=useSelector(store=>store)
 <p className='text-sm lg:text-base cursor-pointer'>
   AppTreading
 </p>
-<div className="p-0 ml-9">
-  <Button  className="flex items-center gap-3">
-    <MagnifyingGlassIcon/>
 
-    <span>Buscar</span>
-  </Button>
-</div>
 </div>
 <div >
   <Avatar>

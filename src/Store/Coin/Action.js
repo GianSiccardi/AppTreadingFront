@@ -103,18 +103,25 @@ export const fetchCoinDetails = ({ coinId, jwt }) => async (dispatch) => {
     }
 };
 
-export const searchCoin=(keyword)=>async(dispatch)=>{
-    dispatch({type:SEARCH_COIN_REQUEST});
+export const searchCoin = (keyword) => async (dispatch) => {
+    dispatch({ type: SEARCH_COIN_REQUEST });
+    console.log("Dispatching search for term:", keyword);
 
-    try{
-        const response=await api.get(`/coins/search?q=${keyword}`)
-        dispatch({type:SEARCH_COIN_SUCCESS,payload:response.data})
+    try {
+        const response = await axios.get(`${API_BASE_URL}/coins/search`, {
+            params: { q: keyword }, 
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        dispatch({ type: SEARCH_COIN_SUCCESS, payload: response.data });
+        console.log('Datos de búsqueda:', response.data);
 
-    }catch(error){
+    } catch (error) {
         console.log(error);
-        dispatch({type:SEARCH_COIN_FAILURE,payload:error.mesagge})
+        dispatch({ type: SEARCH_COIN_FAILURE, payload: error.message });
     }
-}
+};
 
 
 

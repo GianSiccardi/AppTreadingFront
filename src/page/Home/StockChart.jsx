@@ -112,8 +112,8 @@ const StockChart = ({ coinId }) => {
 
 
     return (
-        <div>
-            <div className='space-x-3'>
+        <div >
+            <div className='space-x-4'>
                 {timeSeries.map((item) => < Button
                     variant={activeLabel.label === item.label ? "" : "outline"}
                     onClick={() => handleActiveLable(item)}
@@ -122,7 +122,7 @@ const StockChart = ({ coinId }) => {
                 </Button>)}
             </div>
 
-            <div id="chart-timelines">
+            <div id="chart-timelines ">
                 <ReactApexChart
                     options={options}
                     series={series}

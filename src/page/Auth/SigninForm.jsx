@@ -61,7 +61,7 @@ return (
                         
                             <FormControl>
                                 <Input
-                                  // name="accountNumber"
+                                   type="password" 
                                     className="border w-full border-gray-700 p-5"
                                     placeholder="Contraseña" {...field} />
                             </FormControl>

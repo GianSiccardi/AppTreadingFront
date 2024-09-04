@@ -30,6 +30,17 @@ const Wallet = () => {
   const stripePaymentId = query.get("stripe_payment_id");
   const navigate = useNavigate();
 
+
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text)
+        .then(() => {
+            console.log('Texto copiado al portapapeles:', text);
+            
+        })
+        .catch((error) => {
+            console.error('Error al copiar al portapapeles:', error);
+        });
+};
   const handleFetchUserWalle = () => {
     console.log("Intentando despachar getUserWallet");
     dispatch(getUserWallet(localStorage.getItem("jwt")));
@@ -75,7 +86,11 @@ return (
                   <div className='flex items-center gap-2'></div>
                   <p className='text-gray-200 text-sm'>
                   #{wallet.userWallet?.id || "ID no disponible"}                  </p>
-                  <CopyIcon size={12} className='cursor-pointer hover:text-slate-300'></CopyIcon>
+                  <CopyIcon 
+                    size={12} 
+                    className='cursor-pointer hover:text-slate-300' 
+                    onClick={() => copyToClipboard(wallet.userWallet?.id || "ID no disponible")}
+                />
                 </div>
               </div>
               <ReloadIcon onClick={handleFetchUserWalle} className='w-6 h-6 cursor-pointer hover:text-gray-400'></ReloadIcon>

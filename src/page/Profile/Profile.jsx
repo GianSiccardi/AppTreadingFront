@@ -48,24 +48,7 @@ const Profile = () => {
                 </div>
               </div>
 
-              <div className='space-y-7'>
-                <div className="flex">
-                  <p className='w-[9rem]'>Email: </p>
-                  <p className='text-gray-500'>giansica@gmail.com</p>
-                </div>
-                <div className="flex">
-                  <p className='w-[9rem]'>Nombre: </p>
-                  <p className='text-gray-500'>Gian Siccardi</p>
-                </div>
-                <div className="flex">
-                  <p className='w-[9rem]'>Nacimiento: </p>
-                  <p className='text-gray-500'>15/12/00</p>
-                </div>
-                <div className="flex">
-                  <p className='w-[9rem]'>Nacionalidad: </p>
-                  <p className='text-gray-500'>Argentino</p>
-                </div>
-              </div>
+            
 
             </div>
             
