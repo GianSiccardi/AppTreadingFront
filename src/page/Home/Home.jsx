@@ -226,18 +226,18 @@ const Home = () => {
                                     <p>¿Cuál es tu pregunta?</p>
                                 </div>
                             </div>
-                            {[1, 1, 1, 1, 1].map((item, i) => (
+                            {[1,1,1,1].map((item, i) => (
                                 <div
                                     key={i}
                                     className={`${i % 2 === 0 ? "self-end" : "self-start"} pb-5 w-auto`}
                                 >
                                     {i % 2 === 0 ? (
                                         <div className="justify-end self-end px-5 py-2 rounded-md bg-slate-800 w-auto">
-                                            <p>prompt</p>
+                                            <p>Tengo que agregar un la api de geminis aqui!</p>
                                         </div>
                                     ) : (
                                         <div className="justify-end self-start px-5 py-2 rounded-md bg-slate-800 w-auto">
-                                            <p>answer</p>
+                                            <p>Ok</p>
                                         </div>
                                     )}
                                 </div>
