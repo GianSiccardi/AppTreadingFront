@@ -92,8 +92,7 @@ useEffect(() => {
                             {quantity}</p>
                     </div>
                 </div>
-                {true &&
-                    <h1 className='text-red-600 text-center pt-4'>Saldo insuficiente en tu billetera </h1>}
+             
             </div>
 
             <div className="">
